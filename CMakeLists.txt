@@ -8,14 +8,12 @@ add_executable(SDL_gpu_examples
     stb_image.h
     Examples/Common.c
     Examples/ClearScreen.c
-    Examples/ClearScreenMultiWindow.c
     Examples/BasicTriangle.c
     Examples/BasicVertexBuffer.c
     Examples/CullMode.c
     Examples/BasicStencil.c
     Examples/InstancedIndexed.c
     Examples/TexturedQuad.c
-    Examples/ComputeSampler.c
     Examples/TexturedAnimatedQuad.c
     Examples/Clear3DSlice.c
     Examples/BasicCompute.c
@@ -43,6 +41,18 @@ target_link_libraries(SDL_gpu_examples
     SDL3::Headers
 )
 
-add_custom_command(TARGET SDL_gpu_examples POST_BUILD
+add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Content $<TARGET_FILE_DIR:SDL_gpu_examples>/Content
 )
+
+if(EMSCRIPTEN)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+    # Compiler and linker flags for Emscripten
+    set_target_properties(SDL_gpu_examples PROPERTIES
+    COMPILE_FLAGS "${EMCC_COMPILER_FLAGS}"
+    LINK_FLAGS "${EMCC_LINKER_FLAGS} -g -o SDL_gpu_examples.html --shell-file ../shell.html -sUSE_WEBGPU -sASYNCIFY -sNO_DISABLE_EXCEPTION_CATCHING")
+    
+    # Add the Content/ directory to Emscripten's virtual filesystem
+    target_link_options(SDL_gpu_examples PUBLIC "SHELL: --preload-file Content/")
+endif()

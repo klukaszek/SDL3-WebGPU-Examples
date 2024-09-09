@@ -128,6 +128,7 @@ static int Draw(Context* context)
 		colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
 
 		SDL_GPURenderPass* renderPass = SDL_BeginGPURenderPass(cmdbuf, &colorTargetInfo, 1, NULL);
+
 		SDL_BindGPUGraphicsPipeline(renderPass, Pipeline);
 		SDL_DrawGPUPrimitives(renderPass, 3, 1, 0, 0);
 		SDL_EndGPURenderPass(renderPass);

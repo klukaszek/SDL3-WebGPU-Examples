@@ -72,7 +72,7 @@ static int Init(Context* context)
 		&(SDL_GPUBufferCreateInfo) {
 			.usage = SDL_GPU_BUFFERUSAGE_VERTEX,
 			.size = sizeof(PositionVertex) * 24
-		}
+        }
 	);
 
 	IndexBuffer = SDL_CreateGPUBuffer(
@@ -335,7 +335,7 @@ static int Draw(Context* context)
 
 		SDL_GPURenderPass* renderPass = SDL_BeginGPURenderPass(cmdbuf, &colorTargetInfo, 1, NULL);
 
-		SDL_BindGPUGraphicsPipeline(renderPass, Pipeline);
+        SDL_BindGPUGraphicsPipeline(renderPass, Pipeline);
 		SDL_BindGPUVertexBuffers(renderPass, 0, &(SDL_GPUBufferBinding){ VertexBuffer, 0 }, 1);
 		SDL_BindGPUIndexBuffer(renderPass, &(SDL_GPUBufferBinding){ IndexBuffer, 0 }, SDL_GPU_INDEXELEMENTSIZE_16BIT);
 		SDL_BindGPUFragmentSamplers(renderPass, 0, &(SDL_GPUTextureSamplerBinding){ DestinationTexture, Sampler }, 1);

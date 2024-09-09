@@ -100,6 +100,7 @@ static int Init(Context* context)
 				.num_vertex_attributes = 3,
 				.vertex_attributes = (SDL_GPUVertexAttribute[]){{
 					.buffer_slot = 0,
+
 					.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT4,
 					.location = 0,
 					.offset = 0
@@ -370,7 +371,7 @@ static int Draw(Context* context)
 			&(SDL_GPUStorageBufferReadWriteBinding){
 				.buffer = SpriteVertexBuffer,
 				.cycle = true
-			},
+            },
 			1
 		);
 

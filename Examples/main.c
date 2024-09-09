@@ -1,276 +1,362 @@
 #include "Common.h"
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_keyboard.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3/SDL_oldnames.h>
 #include <SDL_gpu_shadercross.h>
+#include <emscripten/emscripten.h>
+#include <emscripten/html5.h>
+#include <webgpu/webgpu.h>
 
-static Example* Examples[] =
-{
-	&ClearScreen_Example,
+// Include all the examples here
+static Example *Examples[] = {
+    &ClearScreen_Example,
 #if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-	&ClearScreenMultiWindow_Example,
+    &ClearScreenMultiWindow_Example,
 #endif
-	&BasicTriangle_Example,
-	&BasicVertexBuffer_Example,
-	&CullMode_Example,
-	&BasicStencil_Example,
-	&InstancedIndexed_Example,
-	&TexturedQuad_Example,
-	&TexturedAnimatedQuad_Example,
-	&Clear3DSlice_Example,
-	&BasicCompute_Example,
-	&ComputeUniforms_Example,
-	&ToneMapping_Example,
-	&CustomSampling_Example,
-	&DrawIndirect_Example,
-	&ComputeSampler_Example,
-	&ComputeSpriteBatch_Example,
-	&CopyAndReadback_Example,
-	&CopyConsistency_Example,
-	&Texture2DArray_Example,
-	&TriangleMSAA_Example,
-	&Cubemap_Example,
-	&WindowResize_Example,
-	&Blit2DArray_Example,
-	&BlitCube_Example,
-	&BlitMirror_Example,
-	&GenerateMipmaps_Example,
+    &BasicTriangle_Example,
+    &BasicVertexBuffer_Example,
+    &CullMode_Example,
+    &BasicStencil_Example,
+    &InstancedIndexed_Example,
+    &TexturedQuad_Example,
+    &TexturedAnimatedQuad_Example,
+    &Clear3DSlice_Example,
+    &BasicCompute_Example,
+    &ComputeUniforms_Example,
+    &ToneMapping_Example,
+    &CustomSampling_Example,
+    &DrawIndirect_Example,
+    &ComputeSampler_Example,
+    &ComputeSpriteBatch_Example,
+    &CopyAndReadback_Example,
+    &CopyConsistency_Example,
+    &Texture2DArray_Example,
+    &TriangleMSAA_Example,
+    &Cubemap_Example,
+    &WindowResize_Example,
+    &Blit2DArray_Example,
+    &BlitCube_Example,
+    &BlitMirror_Example,
+    &GenerateMipmaps_Example,
 };
 
-bool AppLifecycleWatcher(void *userdata, SDL_Event *event)
-{
-	/* This callback may be on a different thread, so let's
-	 * push these events as USER events so they appear
-	 * in the main thread's event loop.
-	 *
-	 * That allows us to cancel drawing before/after we finish
-	 * drawing a frame, rather than mid-draw (which can crash!).
-	 */
-	if (event->type == SDL_EVENT_DID_ENTER_BACKGROUND)
-	{
-		SDL_Event evt;
-		evt.type = SDL_EVENT_USER;
-		evt.user.code = 0;
-		SDL_PushEvent(&evt);
-	}
-	else if (event->type == SDL_EVENT_WILL_ENTER_FOREGROUND)
-	{
-		SDL_Event evt;
-		evt.type = SDL_EVENT_USER;
-		evt.user.code = 1;
-		SDL_PushEvent(&evt);
-	}
-	return false;
+static EM_BOOL emsc_dummy_key_callback(int type,
+                                       const EmscriptenKeyboardEvent *ev,
+                                       void *userdata) {
+  if (ev->ctrlKey || ev->altKey || ev->metaKey) {
+    SDL_Log("Key down: %s (ctrl/alt/meta)", ev->key);
+  }
+  return EM_TRUE;
 }
 
-int main(int argc, char **argv)
-{
-	Context context = { 0 };
-	int exampleIndex = -1;
-	int gotoExampleIndex = 0;
-	int quit = 0;
-	float lastTime = 0;
+static EM_BOOL emsc_dummy_mousebutton_callback(int type,
+                                               const EmscriptenMouseEvent *ev,
+                                               void *userdata) {
+  return EM_TRUE;
+}
 
-	for (int i = 1; i < argc; i += 1)
-	{
-		if (SDL_strcmp(argv[i], "-name") == 0 && argc > i + 1)
-		{
-			const char* exampleName = argv[i + 1];
-			int foundExample = 0;
+static EM_BOOL emsc_dummy_mousewheel_callback(int type,
+                                              const EmscriptenWheelEvent *ev,
+                                              void *userdata) {
+  return EM_TRUE;
+}
 
-			for (int j = 0; j < SDL_arraysize(Examples); j += 1)
-			{
-				if (SDL_strcmp(Examples[j]->Name, exampleName) == 0)
-				{
-					gotoExampleIndex = j;
-					foundExample = 1;
-					break;
-				}
-			}
+static EM_BOOL emsc_dummy_touch_callback(int type,
+                                         const EmscriptenTouchEvent *ev,
+                                         void *userdata) {
+  return EM_TRUE;
+}
 
-			if (!foundExample)
-			{
-				SDL_Log("No example named '%s' exists.", exampleName);
-				return 1;
-			}
-		}
-	}
+// Global variables for managing the state of the example suite.
+// ------------------------------------------------------------
+Context ctx = {0};
+int exampleIndex = -1;
+int gotoExampleIndex = 0;
+int quit = 0;
+float lastTime = 0;
+SDL_Gamepad *gamepad = NULL;
+bool canDraw = false;
 
-	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
-	{
-		SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
-		return 1;
-	}
+bool AppLifecycleWatcher(void *userdata, SDL_Event *event) {
+  /* This callback may be on a different thread, so let's
+   * push these events as USER events so they appear
+   * in the main thread's event loop.
+   *
+   * That allows us to cancel drawing before/after we finish
+   * drawing a frame, rather than mid-draw (which can crash!).
+   */
+  if (event->type == SDL_EVENT_DID_ENTER_BACKGROUND) {
+    SDL_Event evt;
+    evt.type = SDL_EVENT_USER;
+    evt.user.code = 0;
+    SDL_PushEvent(&evt);
+  } else if (event->type == SDL_EVENT_WILL_ENTER_FOREGROUND) {
+    SDL_Event evt;
+    evt.type = SDL_EVENT_USER;
+    evt.user.code = 1;
+    SDL_PushEvent(&evt);
+  }
+  return false;
+}
+// ------------------------------------------------------------
 
-	InitializeAssetLoader();
-	SDL_AddEventWatch(AppLifecycleWatcher, NULL);
-	SDL_ShaderCross_Init();
+// Callback for when the window is resized
+static bool emsc_fullscreen(char *id) {
+  EMSCRIPTEN_RESULT res;
+  if (!id) {
+    res = emscripten_request_fullscreen("#canvas", 1);
+  } else {
+    res = emscripten_request_fullscreen(id, 1);
+  }
+  return res;
+}
 
-	SDL_Log("Welcome to the SDL_GPU example suite!");
-	SDL_Log("Press A/D (or LB/RB) to move between examples!");
+// Process events for the example suite
+// This has a 6ms limit to prevent the browser from hanging
+// This is caused by mouse events flooding the event queue
+// so we empty the queue of mouse events at 6ms
+void process_events(Context *context) {
+  // Keep track of when we started processing events
+  uint32_t start = SDL_GetTicks();
+  context->LeftPressed = 0;
+  context->RightPressed = 0;
+  context->DownPressed = 0;
+  context->UpPressed = 0;
 
-	SDL_Gamepad* gamepad = NULL;
-	bool canDraw = true;
+  // Poll for events on frame update.
+  SDL_Event evt;
+  while (SDL_PollEvent(&evt)) {
+    switch (evt.type) {
+    case SDL_EVENT_QUIT:
+      if (exampleIndex != -1) {
+        Examples[exampleIndex]->Quit(context);
+      }
+      quit = 1;
+      break;
+    case SDL_EVENT_GAMEPAD_ADDED:
+      if (gamepad == NULL) {
+        gamepad = SDL_OpenGamepad(evt.gdevice.which);
+      }
+      break;
+    case SDL_EVENT_GAMEPAD_REMOVED:
+      if (evt.gdevice.which == SDL_GetGamepadID(gamepad)) {
+        SDL_CloseGamepad(gamepad);
+      }
+      break;
+    case SDL_EVENT_USER:
+      if (evt.user.code == 0) {
+        SDL_Log("App did enter background");
+        canDraw = false;
+      } else if (evt.user.code == 1) {
+        SDL_Log("App will enter foreground");
+        canDraw = true;
+      }
+      break;
+    case SDL_EVENT_KEY_DOWN:
+      SDL_Log("Key down: %s", SDL_GetKeyName(evt.key.key));
+      if (evt.key.key == (unsigned int)'d') {
+        gotoExampleIndex = exampleIndex + 1;
+        if (gotoExampleIndex >= SDL_arraysize(Examples)) {
+          gotoExampleIndex = 0;
+        }
+      } else if (evt.key.key == (unsigned int)'a') {
+        gotoExampleIndex = exampleIndex - 1;
+        if (gotoExampleIndex < 0) {
+          gotoExampleIndex = SDL_arraysize(Examples) - 1;
+        }
+      } else if (evt.key.key == SDLK_F11) {
+        emsc_fullscreen(NULL);
+      } else if (evt.key.key == SDLK_LEFT) {
+        context->LeftPressed = true;
+        SDL_Log("Left pressed");
+      } else if (evt.key.key == SDLK_RIGHT) {
+        context->RightPressed = true;
+        SDL_Log("Right pressed");
+      } else if (evt.key.key == SDLK_DOWN) {
+        context->DownPressed = true;
+        SDL_Log("Down pressed");
+      } else if (evt.key.key == SDLK_UP) {
+        context->UpPressed = true;
+        SDL_Log("Up pressed");
+      }
+      break;
+    case SDL_EVENT_MOUSE_MOTION:
+      SDL_Log("Mouse motion detected!");
+      break;
+    case SDL_EVENT_MOUSE_BUTTON_DOWN:
+      if (evt.button.button == SDL_BUTTON_LEFT) {
+        SDL_Log("Left mouse button pressed!");
+      }
+      if (evt.button.button == SDL_BUTTON_RIGHT) {
+        SDL_Log("Right mouse button pressed!");
+      }
+      if (evt.button.button == SDL_BUTTON_MIDDLE) {
+        SDL_Log("Middle mouse button pressed!");
+      }
+      break;
+    }
 
-	while (!quit)
-	{
-		context.LeftPressed = 0;
-		context.RightPressed = 0;
-		context.DownPressed = 0;
-		context.UpPressed = 0;
+    // If we've been processing events for more than 2ms, empty any mouse
+    // events in the event queue as there is an issue with mouse events
+    // flooding the event queue on browsers.
+    if (SDL_GetTicks() - start > 2) {
+      SDL_Log("Emptying mouse events from the queue!");
+      while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_MOUSE_MOTION,
+                            SDL_EVENT_MOUSE_MOTION) > 0) {
+        //
+      }
+      break;
+    }
+  } // SDL_Event Processing End
+}
 
-		SDL_Event evt;
-		while (SDL_PollEvent(&evt))
-		{
-			if (evt.type == SDL_EVENT_QUIT)
-			{
-				if (exampleIndex != -1)
-				{
-					Examples[exampleIndex]->Quit(&context);
-				}
-				quit = 1;
-			}
-			else if (evt.type == SDL_EVENT_GAMEPAD_ADDED)
-			{
-				if (gamepad == NULL)
-				{
-					gamepad = SDL_OpenGamepad(evt.gdevice.which);
-				}
-			}
-			else if (evt.type == SDL_EVENT_GAMEPAD_REMOVED)
-			{
-				if (evt.gdevice.which == SDL_GetGamepadID(gamepad))
-				{
-					SDL_CloseGamepad(gamepad);
-				}
-			}
-			else if (evt.type == SDL_EVENT_USER)
-			{
-				if (evt.user.code == 0)
-				{
-#ifdef SDL_PLATFORM_GDK
-					SDL_GDKSuspendGPU(context.Device);
-					canDraw = false;
-					SDL_GDKSuspendComplete();
-#endif
-				}
-				else if (evt.user.code == 1)
-				{
-#ifdef SDL_PLATFORM_GDK
-					SDL_GDKResumeGPU(context.Device);
-					canDraw = true;
-#endif
-				}
-			}
-			else if (evt.type == SDL_EVENT_KEY_DOWN)
-			{
-				if (evt.key.key == SDLK_D)
-				{
-					gotoExampleIndex = exampleIndex + 1;
-					if (gotoExampleIndex >= SDL_arraysize(Examples)) {
-						gotoExampleIndex = 0;
-					}
-				}
-				else if (evt.key.key == SDLK_A)
-				{
-					gotoExampleIndex = exampleIndex - 1;
-					if (gotoExampleIndex < 0) {
-						gotoExampleIndex = SDL_arraysize(Examples) - 1;
-					}
-				}
-				else if (evt.key.key == SDLK_LEFT)
-				{
-					context.LeftPressed = true;
-				}
-				else if (evt.key.key == SDLK_RIGHT)
-				{
-					context.RightPressed = true;
-				}
-				else if (evt.key.key == SDLK_DOWN)
-				{
-					context.DownPressed = true;
-				}
-				else if (evt.key.key == SDLK_UP)
-				{
-					context.UpPressed = true;
-				}
-			}
-			else if (evt.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN)
-			{
-				if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER)
-				{
-					gotoExampleIndex = exampleIndex + 1;
-					if (gotoExampleIndex >= SDL_arraysize(Examples)) {
-						gotoExampleIndex = 0;
-					}
-				}
-				else if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_LEFT_SHOULDER)
-				{
-					gotoExampleIndex = exampleIndex - 1;
-					if (gotoExampleIndex < 0) {
-						gotoExampleIndex = SDL_arraysize(Examples) - 1;
-					}
-				}
-				else if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_LEFT)
-				{
-					context.LeftPressed = true;
-				}
-				else if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_RIGHT)
-				{
-					context.RightPressed = true;
-				}
-				else if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN)
-				{
-					context.DownPressed = true;
-				}
-				else if (evt.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP)
-				{
-					context.UpPressed = true;
-				}
-			}
-		}
-		if (quit)
-		{
-			break;
-		}
+// Load one of the examples into our WebGPU context.
+static bool load_example(Context *context) {
+  int tmp = exampleIndex;
+  int depth = 0;
+  canDraw = false;
 
-		if (gotoExampleIndex != -1)
-		{
-			if (exampleIndex != -1)
-			{
-				Examples[exampleIndex]->Quit(&context);
-				SDL_zero(context);
-			}
+  // If we're already running an example, quit it first
+  if (exampleIndex != -1) {
+    SDL_Log("QUITTING EXAMPLE: %s", context->ExampleName);
+  }
 
-			exampleIndex = gotoExampleIndex;
-			context.ExampleName = Examples[exampleIndex]->Name;
-			SDL_Log("STARTING EXAMPLE: %s", context.ExampleName);
-			if (Examples[exampleIndex]->Init(&context) < 0)
-			{
-				SDL_Log("Init failed!");
-				return 1;
-			}
+  // Cursed goto label to try to catch failed loads
+  // Realistically this should probably be a cond loop
+  // but what is a loop if not a goto statement in disguise?
+load:
+  exampleIndex = gotoExampleIndex;
+  context->exampleIndex = exampleIndex;
+  context->ExampleName = Examples[exampleIndex]->Name;
+  SDL_Log("STARTING EXAMPLE: %s", context->ExampleName);
+  if (Examples[exampleIndex]->Init(context) < 0) {
+    SDL_Log("%s Init failed!", context->ExampleName);
+    SDL_Log("QUITTING EXAMPLE: %s", context->ExampleName);
+    SDL_Log("Returning to previous example...");
+    gotoExampleIndex = tmp;
+    if (depth++ < 2)
+      goto load;
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 "Failed to load fallback example: %s", context->ExampleName);
+    return false;
+  }
 
-			gotoExampleIndex = -1;
-		}
+  // Once the example is loaded, reset the goto index
+  gotoExampleIndex = -1;
+  canDraw = true;
+  return true;
+}
 
-		float newTime = SDL_GetTicks() / 1000.0f;
-		context.DeltaTime = newTime - lastTime;
-		lastTime = newTime;
+static EM_BOOL emsc_frame(double time, void *userdata) {
+  Context *context = (Context *)userdata;
 
-		if (Examples[exampleIndex]->Update(&context) < 0)
-		{
-			SDL_Log("Update failed!");
-			return 1;
-		}
+  if (gotoExampleIndex != -1) {
+    if (!load_example(context)) {
+      return false;
+    }
+  }
 
-		if (canDraw)
-		{
-			if (Examples[exampleIndex]->Draw(&context) < 0)
-			{
-				SDL_Log("Draw failed!");
-				return 1;
-			}
-		}
-	}
+  // Calculate the time since the last frame
+  float newTime = SDL_GetTicks() / 1000.0f;
+  context->DeltaTime = newTime - lastTime;
+  lastTime = newTime;
 
-	return 0;
+  // Calculate framerate from DeltaTime
+  context->FPS = 1.0f / context->DeltaTime;
+
+  // Process any SDL events that have occurred since the last frame
+  process_events(context);
+
+  // Update the current example and draw it
+  if (Examples[exampleIndex]->Update(context) == 0) {
+    if (Examples[exampleIndex]->Draw(context) != 0) {
+      // if emsc_frame returns false, we quit
+      CommonQuit(&ctx);
+      return false;
+    }
+    return true;
+  }
+
+  // if emsc_frame returns false, we quit
+  CommonQuit(&ctx);
+  return false;
+}
+
+static EM_BOOL emsc_frame(double time, void *userdata) {
+  Context *context = (Context *)userdata;
+
+  if (gotoExampleIndex != -1) {
+    if (!load_example(context)) {
+      return false;
+    }
+  }
+
+  // Calculate the time since the last frame
+  float newTime = SDL_GetTicks() / 1000.0f;
+  context->DeltaTime = newTime - lastTime;
+  lastTime = newTime;
+
+  // Calculate framerate from DeltaTime
+  context->FPS = 1.0f / context->DeltaTime;
+
+  // Process any SDL events that have occurred since the last frame
+  process_events(context);
+
+  // Update the current example and draw it
+  if (Examples[exampleIndex]->Update(context) == 0) {
+    if (Examples[exampleIndex]->Draw(context) != 0) {
+      // If the draw fails, quit the example
+      Examples[exampleIndex]->Quit(context);
+      return false;
+    }
+    return true;
+  }
+
+  // If the update fails, quit the example
+  Examples[exampleIndex]->Quit(context);
+  return false;
+}
+
+int main(int argc, char **argv) {
+
+  for (int i = 1; i < argc; i += 1) {
+    if (SDL_strcmp(argv[i], "-name") == 0 && argc > i + 1) {
+      const char *exampleName = argv[i + 1];
+      int foundExample = 0;
+
+      for (int j = 0; j < SDL_arraysize(Examples); j += 1) {
+        if (SDL_strcmp(Examples[j]->Name, exampleName) == 0) {
+          gotoExampleIndex = j;
+          foundExample = 1;
+          break;
+        }
+      }
+    }
+  }
+
+  // Initialize SDL and the GPU device
+  if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
+    SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
+    return 1;
+  }
+
+  CommonInit(&ctx, SDL_WINDOW_RESIZABLE);
+
+  InitializeAssetLoader();
+  SDL_AddEventWatch(AppLifecycleWatcher, NULL);
+
+  SDL_Log("Welcome to the SDL_GPU example suite!");
+  SDL_Log("Press A/D (or LB/RB) to move between examples!");
+  /*// Load whatever example is set to be loaded*/
+  if (!load_example(&ctx)) {
+    return 1;
+  }
+
+  gotoExampleIndex = -1;
+  canDraw = true;
+
+  // Set the emscripten render loop
+  emscripten_request_animation_frame_loop(emsc_frame, &ctx);
+  return 0;
 }

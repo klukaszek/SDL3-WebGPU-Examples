@@ -57,6 +57,7 @@ static int Init(Context* context)
 			.num_vertex_attributes = 2,
 			.vertex_attributes = (SDL_GPUVertexAttribute[]){{
 				.buffer_slot = 0,
+
 				.format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3,
 				.location = 0,
 				.offset = 0

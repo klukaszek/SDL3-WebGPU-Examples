@@ -212,7 +212,6 @@ static void Quit(Context* context)
 		SDL_ReleaseGPUTexture(context->Device, MSAARenderTextures[i]);
 	}
 	SDL_ReleaseGPUTexture(context->Device, ResolveTexture);
-
 	CurrentSampleCount = 0;
 
 	CommonQuit(context);

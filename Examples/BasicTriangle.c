@@ -11,11 +11,11 @@ static bool UseScissorRect = false;
 
 static int Init(Context* context)
 {
-	int result = CommonInit(context, 0);
-	if (result < 0)
-	{
-		return result;
-	}
+	/*int result = CommonInit(context, 0);*/
+	/*if (result < 0)*/
+	/*{*/
+	/*	return result;*/
+	/*}*/
 
 	// Create the shaders
 	SDL_GPUShader* vertexShader = LoadShader(context->Device, "RawTriangle.vert", 0, 0, 0, 0);
@@ -46,6 +46,7 @@ static int Init(Context* context)
 	};
 
 	pipelineCreateInfo.rasterizer_state.fill_mode = SDL_GPU_FILLMODE_FILL;
+
 	FillPipeline = SDL_CreateGPUGraphicsPipeline(context->Device, &pipelineCreateInfo);
 	if (FillPipeline == NULL)
 	{
@@ -117,6 +118,7 @@ static int Draw(Context* context)
 		colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
 
 		SDL_GPURenderPass* renderPass = SDL_BeginGPURenderPass(cmdbuf, &colorTargetInfo, 1, NULL);
+
 		SDL_BindGPUGraphicsPipeline(renderPass, UseWireframeMode ? LinePipeline : FillPipeline);
 		if (UseSmallViewport)
 		{

@@ -6,6 +6,7 @@
 typedef struct Context
 {
 	const char* ExampleName;
+    int exampleIndex;
 	const char* BasePath;
 	SDL_Window* Window;
 	SDL_GPUDevice* Device;
@@ -14,6 +15,7 @@ typedef struct Context
 	bool DownPressed;
 	bool UpPressed;
 	float DeltaTime;
+    float FPS;
 } Context;
 
 int CommonInit(Context* context, SDL_WindowFlags windowFlags);
