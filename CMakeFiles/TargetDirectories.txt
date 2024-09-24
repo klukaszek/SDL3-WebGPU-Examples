@@ -1,0 +1,3 @@
+/home/runner/work/SDL3-WebGPU-Examples/SDL3-WebGPU-Examples/build/CMakeFiles/SDL_gpu_examples.dir
+/home/runner/work/SDL3-WebGPU-Examples/SDL3-WebGPU-Examples/build/CMakeFiles/edit_cache.dir
+/home/runner/work/SDL3-WebGPU-Examples/SDL3-WebGPU-Examples/build/CMakeFiles/rebuild_cache.dir
