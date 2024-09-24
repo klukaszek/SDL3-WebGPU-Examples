@@ -1,0 +1,77 @@
+name: Build with Emscripten and CMake
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@master
+
+    - name: set up cache for emscripten
+      uses: actions/cache@v3
+      with:
+        path: emsdk
+        key: emscripten-${{ runner.os }}-latest
+        restore-keys: |
+          emscripten-${{ runner.os }}-
+
+    - name: set up emscripten environment
+      run: |
+        if [ ! -d "emsdk" ]; then
+        git clone https://github.com/emscripten-core/emsdk.git
+        fi
+        cd emsdk
+        ./emsdk install latest
+        ./emsdk activate latest
+        source ./emsdk_env.sh
+        cd ..
+
+    - name: Clone/Update SDL
+      if: steps.cache-repo.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/klukaszek/SDL.git
+        cd SDL
+        git pull origin main
+        git submodule update --init
+
+    - name: Build SDL
+      if: steps.cache-repo-compiled.outputs.cache-hit != 'true'
+      run: |
+        source emsdk/emsdk_env.sh
+        # Build the separate repo
+        mkdir -p SDL_Build
+        cd SDL_Build
+        emcmake cmake ../SDL -DSDL_WEBGPU=ON -DSDL_RENDER_WEBGPU=ON -GNinja    
+        ninja
+
+    - name: Cache SDL
+      uses: actions/cache@v2
+      id: cache-repo
+      with:
+        path: SDL
+        key: ${{ runner.os }}-repo-${{ hashFiles('SDL/**') }}
+
+    - name: Cache compiled SDL Build
+      uses: actions/cache@v2
+      id: cache-repo-compiled
+      with:
+        path: SDL_Build
+        key: ${{ runner.os }}-repo-compiled-${{ hashFiles('SDL_Build/**')}}
+
+    - name: Build project
+      run: |
+        # Activate Emscripten environment
+        source emsdk/emsdk_env.sh
+
+        # Verify installations
+        emcc -v
+        cmake --version

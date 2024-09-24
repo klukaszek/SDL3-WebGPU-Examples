@@ -242,45 +242,12 @@ load:
     return false;
   }
 
+  SDL_Log("LOADED EXAMPLE: %s", context->ExampleName);
+
   // Once the example is loaded, reset the goto index
   gotoExampleIndex = -1;
   canDraw = true;
   return true;
-}
-
-static EM_BOOL emsc_frame(double time, void *userdata) {
-  Context *context = (Context *)userdata;
-
-  if (gotoExampleIndex != -1) {
-    if (!load_example(context)) {
-      return false;
-    }
-  }
-
-  // Calculate the time since the last frame
-  float newTime = SDL_GetTicks() / 1000.0f;
-  context->DeltaTime = newTime - lastTime;
-  lastTime = newTime;
-
-  // Calculate framerate from DeltaTime
-  context->FPS = 1.0f / context->DeltaTime;
-
-  // Process any SDL events that have occurred since the last frame
-  process_events(context);
-
-  // Update the current example and draw it
-  if (Examples[exampleIndex]->Update(context) == 0) {
-    if (Examples[exampleIndex]->Draw(context) != 0) {
-      // if emsc_frame returns false, we quit
-      CommonQuit(&ctx);
-      return false;
-    }
-    return true;
-  }
-
-  // if emsc_frame returns false, we quit
-  CommonQuit(&ctx);
-  return false;
 }
 
 static EM_BOOL emsc_frame(double time, void *userdata) {
@@ -353,8 +320,21 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  gotoExampleIndex = -1;
-  canDraw = true;
+  // Set keyboard callbacks for emscripten
+  emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, &ctx, true,
+                                  &emsc_dummy_key_callback);
+  /*emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, &ctx, true,*/
+  /*                              &emsc_dummy_key_callback);*/
+  /*emscripten_set_keypress_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, &ctx,*/
+  /*                                 true, &emsc_dummy_key_callback);*/
+
+  // Set touch callbacks for emscripten
+  emscripten_set_touchstart_callback("#canvas", &ctx, true,
+                                     emsc_dummy_touch_callback);
+  emscripten_set_touchend_callback("#canvas", &ctx, true,
+                                   emsc_dummy_touch_callback);
+  emscripten_set_touchmove_callback("#canvas", &ctx, true,
+                                    emsc_dummy_touch_callback);
 
   // Set the emscripten render loop
   emscripten_request_animation_frame_loop(emsc_frame, &ctx);
