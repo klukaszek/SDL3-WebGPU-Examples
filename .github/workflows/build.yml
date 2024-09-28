@@ -61,6 +61,7 @@ jobs:
         source emsdk/emsdk_env.sh
         mkdir -p build
         cd build
+        git submodule update --init
         emcmake cmake .. -DSDL3_DIR="./SDL_Build/" -GNinja
         ninja
         mv SDL_gpu_examples.html index.html
