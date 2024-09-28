@@ -36,17 +36,27 @@ static int Init(Context* context)
 	SDL_GPUGraphicsPipelineCreateInfo pipelineCreateInfo = {
 		.target_info = {
 			.num_color_targets = 1,
-			.color_target_descriptions = (SDL_GPUColorTargetDescription[]){{
-				.format = SDL_GetGPUSwapchainTextureFormat(context->Device, context->Window)
+            .color_target_descriptions = (SDL_GPUColorTargetDescription[]){{
+				.format = SDL_GetGPUSwapchainTextureFormat(context->Device, context->Window),
+				.blend_state = {
+					.enable_blend = true,
+					.alpha_blend_op = SDL_GPU_BLENDOP_ADD,
+					.color_blend_op = SDL_GPU_BLENDOP_ADD,
+					.color_write_mask = 0xF,
+					.src_color_blendfactor = SDL_GPU_BLENDFACTOR_ONE,
+					.src_alpha_blendfactor = SDL_GPU_BLENDFACTOR_ONE,
+					.dst_color_blendfactor = SDL_GPU_BLENDFACTOR_ZERO,
+					.dst_alpha_blendfactor = SDL_GPU_BLENDFACTOR_ZERO
+				}
 			}},
 		},
+		.multisample_state.sample_mask = 0xFFFF,
 		.primitive_type = SDL_GPU_PRIMITIVETYPE_TRIANGLELIST,
 		.vertex_shader = vertexShader,
 		.fragment_shader = fragmentShader,
 	};
 
 	pipelineCreateInfo.rasterizer_state.fill_mode = SDL_GPU_FILLMODE_FILL;
-
 	FillPipeline = SDL_CreateGPUGraphicsPipeline(context->Device, &pipelineCreateInfo);
 	if (FillPipeline == NULL)
 	{
@@ -96,28 +106,29 @@ static int Update(Context* context)
 
 static int Draw(Context* context)
 {
-    SDL_GPUCommandBuffer* cmdbuf = SDL_AcquireGPUCommandBuffer(context->Device);
-    if (cmdbuf == NULL)
-    {
-        SDL_Log("AcquireGPUCommandBuffer failed: %s", SDL_GetError());
-        return -1;
-    }
+	SDL_GPUCommandBuffer* cmdbuf = SDL_AcquireGPUCommandBuffer(context->Device);
+	if (cmdbuf == NULL)
+	{
+		SDL_Log("GPUAcquireCommandBuffer failed");
+		return -1;
+	}
 
-    SDL_GPUTexture* swapchainTexture;
-    if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture)) {
-        SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
+	SDL_GPUTexture* swapchainTexture;
+    if(!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture))
+    {
+        SDL_Log("Failed to acquire swapchain texture");
         return -1;
     }
 
 	if (swapchainTexture != NULL)
 	{
-		SDL_GPUColorTargetInfo colorTargetInfo = { 0 };
-		colorTargetInfo.texture = swapchainTexture;
-		colorTargetInfo.clear_color = (SDL_FColor){ 0.0f, 0.0f, 0.0f, 1.0f };
-		colorTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
-		colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
+		SDL_GPUColorTargetInfo colorAttachmentInfo = { 0 };
+		colorAttachmentInfo.texture = swapchainTexture;
+		colorAttachmentInfo.clear_color = (SDL_FColor){ 0.0f, 0.0f, 0.0f, 1.0f };
+		colorAttachmentInfo.load_op = SDL_GPU_LOADOP_CLEAR;
+		colorAttachmentInfo.store_op = SDL_GPU_STOREOP_STORE;
 
-		SDL_GPURenderPass* renderPass = SDL_BeginGPURenderPass(cmdbuf, &colorTargetInfo, 1, NULL);
+		SDL_GPURenderPass* renderPass = SDL_BeginGPURenderPass(cmdbuf, &colorAttachmentInfo, 1, NULL);
 
 		SDL_BindGPUGraphicsPipeline(renderPass, UseWireframeMode ? LinePipeline : FillPipeline);
 		if (UseSmallViewport)

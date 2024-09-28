@@ -142,7 +142,7 @@ static int Init(Context *context) {
                                         .destination.w = imageData->w / 2,
                                         .destination.h = imageData->h / 2,
                                         .load_op = SDL_GPU_LOADOP_DONT_CARE,
-                                        .filter = SDL_GPU_FILTER_LINEAR}, );
+                                        .filter = SDL_GPU_FILTER_LINEAR});
 
   // Download the original bytes from the copy
   copyPass = SDL_BeginGPUCopyPass(cmdbuf);

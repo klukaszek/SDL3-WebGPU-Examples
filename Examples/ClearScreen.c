@@ -2,7 +2,8 @@
 
 static int Init(Context* context)
 {
-	return CommonInit(context, SDL_WINDOW_RESIZABLE);
+    return 0;
+	/*return CommonInit(context, SDL_WINDOW_RESIZABLE);*/
 }
 
 static int Update(Context* context)
@@ -18,7 +19,7 @@ static int Draw(Context* context)
         SDL_Log("AcquireGPUCommandBuffer failed: %s", SDL_GetError());
         return -1;
     }
-
+    
     SDL_GPUTexture* swapchainTexture;
     if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture)) {
         SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
@@ -29,7 +30,7 @@ static int Draw(Context* context)
 	{
 		SDL_GPUColorTargetInfo colorTargetInfo = { 0 };
 		colorTargetInfo.texture = swapchainTexture;
-		colorTargetInfo.clear_color = (SDL_FColor){ 0.3f, 0.4f, 0.5f, 1.0f };
+		colorTargetInfo.clear_color = (SDL_FColor){ 1.0f, 0.0f, 0.0f, 1.0f };
 		colorTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
 		colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
 
