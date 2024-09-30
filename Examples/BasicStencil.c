@@ -247,6 +247,11 @@ static void Quit(Context *context) {
   SDL_ReleaseGPUGraphicsPipeline(context->Device, MaskeePipeline);
   SDL_ReleaseGPUGraphicsPipeline(context->Device, MaskerPipeline);
 
+    SDL_GPUTexture* swapchainTexture;
+    if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture, NULL, NULL)) {
+        SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
+        return -1;
+    }
   SDL_ReleaseGPUTexture(context->Device, DepthStencilTexture);
   SDL_ReleaseGPUBuffer(context->Device, VertexBuffer);
 

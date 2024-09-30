@@ -113,10 +113,9 @@ static int Draw(Context* context)
 		return -1;
 	}
 
-	SDL_GPUTexture* swapchainTexture;
-    if(!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture, NULL, NULL))
-    {
-        SDL_Log("Failed to acquire swapchain texture");
+    SDL_GPUTexture* swapchainTexture;
+    if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window, &swapchainTexture, NULL, NULL)) {
+        SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
         return -1;
     }
 
