@@ -734,8 +734,6 @@ void *SDL_ShaderCross_CompileFromWGSL(SDL_GPUDevice *device, void *createInfo,
 
     currentCreateInfo = (SDL_GPUShaderCreateInfo *)createInfo;
 
-        SDL_Log("WGSL Shader: %s", (const char *)currentCreateInfo->code);
-
     size_t out_size;
     // Cross-compile WGSL to SPIR-V using Tint instead of SPIRV-Cross
     uint32_t *spirv = SDL_ShaderCross_INTERNAL_WGSLToSPIRV(
