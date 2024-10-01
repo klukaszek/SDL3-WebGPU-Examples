@@ -45,13 +45,13 @@ add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
 if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
-    # If SDL_gpu_shadercross does not have libtint.a, build it
-    if(NOT EXISTS ${CMAKE_SOURCE_DIR}/SDL_gpu_shadercross/libtint.a)
+    # # If SDL_gpu_shadercross does not have libtint.a, build it
+    # if(NOT EXISTS ${CMAKE_SOURCE_DIR}/SDL_gpu_shadercross/libtint.a)
         add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
             COMMAND make VERBOSE=1
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/SDL_gpu_shadercross
         )
-    endif()
+    # endif()
 
     # Compiler and linker flags for Emscripten
     set_target_properties(SDL_gpu_examples PROPERTIES

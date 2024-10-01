@@ -34,43 +34,38 @@ SOURCES = tint_sdl.cpp
 
 OUTPUT = -o tint_sdl.o
 
-SKIP = 0
+ifeq ($(wildcard libtint.a), libtint.a)
+SKIP := 1
+$(info $(PROG): Found libtint.a, skipping build process.)
+else
+SKIP := 0
+$(info $(PROG): No libtint.a found, building tint-wasm library.)
+endif
 
 # Compile to object files
-all: dependencies build archive finish
+all:
+	@if [ $(SKIP) -eq 0 ]; then \
+		echo "$(PROG): Cloning tint-wasm library."; \
+		git clone https://github.com/klukaszek/tint-wasm.git; \
+		echo "$(PROG): Cloned tint-wasm repository."; \
+		echo "$(PROG): This will be deleted after the build process."; \
+		make build; \
+		make archive; \
+		make finish; \
+		echo "$(PROG): Build successful."; \
+	else \
+		echo "$(PROG): No install needed."; \
+	fi
 
 build:
-	@if [ $(SKIP) -eq 1 ]; then \
-		exit 0; \
-	fi 
 	$(CC) $(CFLAGS) $(SOURCES) $(OUTPUT) 
 
 archive:
-	@if [ $(SKIP) -eq 1 ]; then \
-		exit 0; \
-	fi 
 	@echo "$(PROG): Adding C wrapper to tint-wasm library."
 	@ar rcs $(LIB) $(OUTPUT)
 	@echo "$(PROG): Added tint_sdl.o to $(LIB)."
 	@cp $(LIB) ./
 	@echo "$(PROG): Copied library to -> $(PWD)"
-
-dependencies:
-	@echo "$(PROG): Checking for tint-wasm static library."
-	@if [ -e "libtint.a" ]; then \
-		echo "$(PROG): Found tint-wasm library found."; \
-		echo "$(PROG): Using existing tint-wasm library."; \
-		echo "$(PROG): If you want to rebuild tint-wasm, run 'make clean'."; \
-		echo "$(PROG): Otherwise, ignore this message."; \
-		SKIP=1; \
-		echo "$(SKIP)" \
-	else \
-		echo "$(PROG): tint-wasm library not found."; \
-		echo "$(PROG): Installing tint-wasm repository."; \
-		git clone https://github.com/klukaszek/tint-wasm.git; \
-		echo "$(PROG): Cloned tint-wasm repository."; \
-		echo "$(PROG): This will be deleted after the build process."; \
-	fi
 
 finish:
 	@rm -f *.o
