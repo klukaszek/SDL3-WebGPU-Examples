@@ -38,17 +38,20 @@ add_executable(SDL_gpu_examples
 
 target_include_directories(SDL_gpu_examples PRIVATE SDL_gpu_shadercross)
 
-target_link_libraries(SDL_gpu_examples
-    SDL3::SDL3
-    SDL3::Headers
-)
-
 add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Content $<TARGET_FILE_DIR:SDL_gpu_examples>/Content
 )
 
 if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+    # If SDL_gpu_shadercross does not have libtint.a, build it
+    if(NOT EXISTS ${CMAKE_SOURCE_DIR}/SDL_gpu_shadercross/libtint.a)
+        add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
+            COMMAND make VERBOSE=1
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/SDL_gpu_shadercross
+        )
+    endif()
 
     # Compiler and linker flags for Emscripten
     set_target_properties(SDL_gpu_examples PROPERTIES
@@ -57,4 +60,19 @@ if(EMSCRIPTEN)
     
     # Add the Content/ directory to Emscripten's virtual filesystem
     target_link_options(SDL_gpu_examples PUBLIC "SHELL: --preload-file Content/")
+    
+    # Link libtint.a to the project
+    target_link_directories(SDL_gpu_examples PRIVATE SDL_gpu_shadercross)
+    target_link_libraries(SDL_gpu_examples PRIVATE SDL3::SDL3 SDL3::Headers tint)
+
+    set(CLEAN_FILES ${CLEAN_FILES} 
+        ./SDL_gpu_shadercross/libtint.a
+    )
+
+else()
+
+    target_link_libraries(SDL_gpu_examples
+    SDL3::SDL3
+    SDL3::Headers)
+
 endif()

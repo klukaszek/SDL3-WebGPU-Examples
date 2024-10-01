@@ -85,12 +85,12 @@ SDL_GPUShader *LoadShader(SDL_GPUDevice *device, const char *shaderFilename,
       .num_storage_textures = storageTextureCount};
 
   SDL_GPUShader *shader = SDL_ShaderCross_CompileFromSPIRV(device, &shaderInfo, false);
-
   if (shader == NULL) {
     SDL_Log("Failed to create shader!");
     SDL_free(code);
     return NULL;
   }
+
   SDL_free(code);
   return shader;
 }
