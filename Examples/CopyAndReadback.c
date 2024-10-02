@@ -272,63 +272,9 @@ static void Quit(Context *context) {
   SDL_ReleaseGPUTexture(context->Device, OriginalTexture);
   SDL_ReleaseGPUTexture(context->Device, TextureCopy);
   SDL_ReleaseGPUTexture(context->Device, TextureSmall);
-
-  SDL_GPUTexture *swapchainTexture;
-  Uint32 w, h;
-  if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window,
-                                      &swapchainTexture, &w, &h)) {
-    SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
-    return -1;
-  }
-
-  if (swapchainTexture != NULL) {
-    SDL_GPURenderPass *clearPass = SDL_BeginGPURenderPass(
-        cmdbuf,
-        (SDL_GPUColorTargetInfo[]){{.texture = swapchainTexture,
-                                    .load_op = SDL_GPU_LOADOP_CLEAR,
-                                    .store_op = SDL_GPU_STOREOP_STORE,
-                                    .clear_color = {0, 0, 0, 1},
-                                    .cycle = false}},
-        1, NULL);
-    SDL_EndGPURenderPass(clearPass);
-
-    SDL_BlitGPUTexture(
-        cmdbuf, &(SDL_GPUBlitInfo){.source.texture = OriginalTexture,
-                                   .source.w = TextureWidth,
-                                   .source.h = TextureHeight,
-                                   .destination.texture = swapchainTexture,
-                                   .destination.w = w / 2,
-                                   .destination.h = h / 2,
-                                   .load_op = SDL_GPU_LOADOP_LOAD,
-                                   .filter = SDL_GPU_FILTER_NEAREST});
-
-    SDL_BlitGPUTexture(
-        cmdbuf, &(SDL_GPUBlitInfo){.source.texture = TextureCopy,
-                                   .source.w = TextureWidth,
-                                   .source.h = TextureHeight,
-                                   .destination.texture = swapchainTexture,
-                                   .destination.x = w / 2,
-                                   .destination.w = w / 2,
-                                   .destination.h = h / 2,
-                                   .load_op = SDL_GPU_LOADOP_LOAD,
-                                   .filter = SDL_GPU_FILTER_NEAREST});
-
-    SDL_BlitGPUTexture(
-        cmdbuf, &(SDL_GPUBlitInfo){.source.texture = TextureSmall,
-                                   .source.w = TextureWidth / 2,
-                                   .source.h = TextureHeight / 2,
-                                   .destination.texture = swapchainTexture,
-                                   .destination.x = w / 4,
-                                   .destination.y = h / 2,
-                                   .destination.w = w / 2,
-                                   .destination.h = h / 2,
-                                   .load_op = SDL_GPU_LOADOP_LOAD,
-                                   .filter = SDL_GPU_FILTER_NEAREST});
-  }
-
-  SDL_SubmitGPUCommandBuffer(cmdbuf);
-
-  return 0;
+  SDL_ReleaseGPUBuffer(context->Device, OriginalBuffer);
+  SDL_ReleaseGPUBuffer(context->Device, BufferCopy);
+  CommonQuit(context);
 }
 
 Example CopyAndReadback_Example = {"CopyAndReadback", Init, Update, Draw, Quit};

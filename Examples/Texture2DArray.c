@@ -267,41 +267,6 @@ static void Quit(Context *context) {
   SDL_ReleaseGPUTexture(context->Device, Texture);
   SDL_ReleaseGPUSampler(context->Device, Sampler);
 
-  SDL_GPUTexture *swapchainTexture;
-  if (!SDL_AcquireGPUSwapchainTexture(cmdbuf, context->Window,
-                                      &swapchainTexture, NULL, NULL)) {
-    SDL_Log("AcquireGPUSwapchainTexture failed: %s", SDL_GetError());
-    return;
-  }
-
-  if (swapchainTexture != NULL) {
-    SDL_GPUColorTargetInfo colorTargetInfo = {0};
-    colorTargetInfo.texture = swapchainTexture;
-    colorTargetInfo.clear_color = (SDL_FColor){0.0f, 0.0f, 0.0f, 1.0f};
-    colorTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
-    colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
-
-    SDL_GPURenderPass *renderPass =
-        SDL_BeginGPURenderPass(cmdbuf, &colorTargetInfo, 1, NULL);
-
-    SDL_BindGPUGraphicsPipeline(renderPass, Pipeline);
-    SDL_BindGPUVertexBuffers(
-        renderPass, 0,
-        &(SDL_GPUBufferBinding){.buffer = VertexBuffer, .offset = 0}, 1);
-    SDL_BindGPUIndexBuffer(
-        renderPass, &(SDL_GPUBufferBinding){.buffer = IndexBuffer, .offset = 0},
-        SDL_GPU_INDEXELEMENTSIZE_16BIT);
-    SDL_BindGPUFragmentSamplers(
-        renderPass, 0,
-        &(SDL_GPUTextureSamplerBinding){.texture = Texture, .sampler = Sampler},
-        1);
-    SDL_DrawGPUIndexedPrimitives(renderPass, 6, 1, 0, 0, 0);
-
-    SDL_EndGPURenderPass(renderPass);
-  }
-
-  SDL_SubmitGPUCommandBuffer(cmdbuf);
-
   CommonQuit(context);
 }
 
