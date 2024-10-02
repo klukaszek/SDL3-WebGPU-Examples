@@ -1,0 +1,3 @@
+[submodule "SDL_gpu_shadercross"]
+	path = SDL_gpu_shadercross
+	url = https://github.com/klukaszek/SDL_gpu_shadercross.git
