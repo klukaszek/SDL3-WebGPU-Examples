@@ -99,6 +99,8 @@ static int Init(Context* context)
 	transferData[1] = (PositionColorVertex) {     1,    -1, 0,   0, 255,   0, 255 };
 	transferData[2] = (PositionColorVertex) {     0,     1, 0,   0,   0, 255, 255 };
 
+    SDL_Log("First vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[0].x, transferData[0].y, transferData[0].z, transferData[0].r, transferData[0].g, transferData[0].b, transferData[0].a);
+
 	SDL_UnmapGPUTransferBuffer(context->Device, transferBuffer);
 
 	// Upload the transfer data to the vertex buffer
@@ -133,6 +135,8 @@ static int Update(Context* context)
 
 static int Draw(Context* context)
 {
+    SDL_Log("Draw start");
+
     SDL_GPUCommandBuffer* cmdbuf = SDL_AcquireGPUCommandBuffer(context->Device);
     if (cmdbuf == NULL)
     {
@@ -150,7 +154,7 @@ static int Draw(Context* context)
 	{
 		SDL_GPUColorTargetInfo colorTargetInfo = { 0 };
 		colorTargetInfo.texture = swapchainTexture;
-		colorTargetInfo.clear_color = (SDL_FColor){ 0.0f, 0.0f, 0.0f, 1.0f };
+		colorTargetInfo.clear_color = (SDL_FColor){ 0.0f, 1.0f, 0.0f, 1.0f };
 		colorTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
 		colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
 
@@ -169,6 +173,8 @@ static int Draw(Context* context)
 	}
 
 	SDL_SubmitGPUCommandBuffer(cmdbuf);
+
+    SDL_Log("Draw complete");
 
 	return 0;
 }
