@@ -80,6 +80,8 @@ static int Init(Context* context)
 		}
 	);
 
+    SDL_Log("Vertex buffer: %d", VertexBuffer != NULL);
+
 	// To get data into the vertex buffer, we have to use a transfer buffer
 	SDL_GPUTransferBuffer* transferBuffer = SDL_CreateGPUTransferBuffer(
 		context->Device,
