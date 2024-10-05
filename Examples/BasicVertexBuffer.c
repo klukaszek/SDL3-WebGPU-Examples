@@ -100,6 +100,8 @@ static int Init(Context* context)
 	transferData[2] = (PositionColorVertex) {     0,     1, 0,   0,   0, 255, 255 };
 
     SDL_Log("First vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[0].x, transferData[0].y, transferData[0].z, transferData[0].r, transferData[0].g, transferData[0].b, transferData[0].a);
+    SDL_Log("Second vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[1].x, transferData[1].y, transferData[1].z, transferData[1].r, transferData[1].g, transferData[1].b, transferData[1].a);
+    SDL_Log("Third vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[2].x, transferData[2].y, transferData[2].z, transferData[2].r, transferData[2].g, transferData[2].b, transferData[2].a);
 
 	SDL_UnmapGPUTransferBuffer(context->Device, transferBuffer);
 

@@ -263,8 +263,6 @@ static EM_BOOL emsc_frame(double time, void *userdata)
 {
     Context *context = (Context *)userdata;
 
-    SDL_Log("Frame start");
-
     if (gotoExampleIndex != -1) {
         if (!load_example(context)) {
             return false;
