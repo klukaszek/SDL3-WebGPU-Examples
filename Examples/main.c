@@ -64,6 +64,7 @@ SDL_Gamepad *gamepad = NULL;
 bool canDraw = false;
 // ------------------------------------------------------------
 
+
 // Callback for when the window is resized
 static bool emsc_fullscreen(char *id) {
   EMSCRIPTEN_RESULT res;
