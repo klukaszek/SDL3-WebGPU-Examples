@@ -38,10 +38,10 @@ int CommonInit(Context *context, SDL_WindowFlags windowFlags) {
 }
 
 void CommonQuit(Context *context) {
-  SDL_Log("Quitting SDL WebGPU Test Suite...");
-  SDL_ReleaseWindowFromGPUDevice(context->Device, context->Window);
-  SDL_DestroyWindow(context->Window);
-  SDL_DestroyGPUDevice(context->Device);
+  /*SDL_Log("Quitting SDL WebGPU Test Suite...");*/
+  /*SDL_ReleaseWindowFromGPUDevice(context->Device, context->Window);*/
+  /*SDL_DestroyWindow(context->Window);*/
+  /*SDL_DestroyGPUDevice(context->Device);*/
 }
 
 static const char *BasePath = NULL;

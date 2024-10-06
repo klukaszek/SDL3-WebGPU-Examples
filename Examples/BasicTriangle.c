@@ -155,7 +155,7 @@ static void Quit(Context* context)
 	UseWireframeMode = false;
 	UseSmallViewport = false;
 	UseScissorRect = false;
-
+    
 	CommonQuit(context);
 }
 
