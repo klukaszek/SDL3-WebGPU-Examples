@@ -249,7 +249,7 @@ load:
   return true;
 }
 
-static EM_BOOL emsc_frame(double time, void *userdata) {
+static void emsc_frame(void *userdata) {
 
   Context *context = (Context *)userdata;
 
@@ -266,9 +266,11 @@ static EM_BOOL emsc_frame(double time, void *userdata) {
 
   if (gotoExampleIndex != -1) {
     if (!load_example(context)) {
-      return false;
+      return;
+      /*return false;*/
     }
-    return true;
+    return;
+    /*return true;*/
   }
 
   // Update the current example and draw it
@@ -277,16 +279,20 @@ static EM_BOOL emsc_frame(double time, void *userdata) {
       SDL_Log("Draw Failed!");
       // if draw returns false, we quit
       CommonQuit(&ctx);
-      return false;
+      return;
+      /*return false;*/
     }
     /*emscripten_debugger();*/
     /*SDL_GL_SwapWindow(context->Window);*/
-    return true;
+    /*emscripten_request_animation_frame_loop(emsc_frame, context);*/
+    return;
+    /*return true;*/
   }
 
   // if update returns false, we quit
   CommonQuit(&ctx);
-  return false;
+  return;
+  /*return false;*/
 }
 
 int main(int argc, char **argv) {
@@ -349,9 +355,6 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  /*// Write and read a buffer*/
-  /*writeAndReadBuffer((WGPUDevice)0x1);*/
-
   // Set keyboard callbacks for emscripten
   emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, &ctx, true,
                                   &emsc_dummy_key_callback);
@@ -365,7 +368,7 @@ int main(int argc, char **argv) {
                                     emsc_dummy_touch_callback);
 
   // Set the emscripten render loop
-  emscripten_request_animation_frame_loop(emsc_frame, &ctx);
+  emscripten_set_main_loop_arg(emsc_frame, &ctx, 0, 0);
 
   return 0;
 }

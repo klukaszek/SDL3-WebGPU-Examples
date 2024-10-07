@@ -1,4 +1,5 @@
 #include "Common.h"
+#include "emscripten.h"
 
 static SDL_GPUGraphicsPipeline* FillPipeline;
 static SDL_GPUGraphicsPipeline* LinePipeline;
