@@ -266,6 +266,7 @@ static void emsc_frame(void *userdata) {
 
   if (gotoExampleIndex != -1) {
     if (!load_example(context)) {
+      exampleIndex = 0;
       return;
       /*return false;*/
     }
@@ -289,7 +290,7 @@ static void emsc_frame(void *userdata) {
     /*return true;*/
   }
 
-  // if update returns false, we quit
+  // if update returns false,
   CommonQuit(&ctx);
   return;
   /*return false;*/
