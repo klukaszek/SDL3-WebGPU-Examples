@@ -266,7 +266,7 @@ static void emsc_frame(void *userdata) {
 
   if (gotoExampleIndex != -1) {
     if (!load_example(context)) {
-      exampleIndex = 0;
+      gotoExampleIndex = 0;
       return;
       /*return false;*/
     }
@@ -279,6 +279,7 @@ static void emsc_frame(void *userdata) {
     if (Examples[exampleIndex]->Draw(context) != 0) {
       SDL_Log("Draw Failed!");
       // if draw returns false, we quit
+      gotoExampleIndex = 0;
       CommonQuit(&ctx);
       return;
       /*return false;*/
@@ -292,6 +293,7 @@ static void emsc_frame(void *userdata) {
 
   // if update returns false,
   CommonQuit(&ctx);
+  gotoExampleIndex = 0;
   return;
   /*return false;*/
 }
