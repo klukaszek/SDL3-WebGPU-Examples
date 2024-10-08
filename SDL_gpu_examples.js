@@ -39,7 +39,7 @@ if (ENVIRONMENT_IS_NODE) {
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmp4iqxj0fw.js
+// include: /tmp/tmpo_wty82x.js
 
   if (!Module.expectedDataFileDownloads) {
     Module.expectedDataFileDownloads = 0;
@@ -224,21 +224,21 @@ Module['FS_createPath']("/Content/Shaders", "Source", true, true);
 
   })();
 
-// end include: /tmp/tmp4iqxj0fw.js
-// include: /tmp/tmpn5x5mrk5.js
+// end include: /tmp/tmpo_wty82x.js
+// include: /tmp/tmpin2otjw7.js
 
     // All the pre-js content up to here must remain later on, we need to run
     // it.
     if (Module['$ww'] || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD)) Module['preRun'] = [];
     var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: /tmp/tmpn5x5mrk5.js
-// include: /tmp/tmp_gxx1xl6.js
+  // end include: /tmp/tmpin2otjw7.js
+// include: /tmp/tmp92705l4d.js
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach((task) => {
       if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
     });
-  // end include: /tmp/tmp_gxx1xl6.js
+  // end include: /tmp/tmp92705l4d.js
 
 
 // Sometimes an existing Module object exists with properties
@@ -4429,9 +4429,20 @@ var ASM_CONSTS = {
   
       HEAP32[((daylight)>>2)] = Number(winterOffset != summerOffset);
   
-      var extractZone = (date) => date.toLocaleTimeString(undefined, {hour12:false, timeZoneName:'short'}).split(' ')[1];
-      var winterName = extractZone(winter);
-      var summerName = extractZone(summer);
+      var extractZone = (timezoneOffset) => {
+        // Why inverse sign?
+        // Read here https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
+        var sign = timezoneOffset >= 0 ? "-" : "+";
+  
+        var absOffset = Math.abs(timezoneOffset)
+        var hours = String(Math.floor(absOffset / 60)).padStart(2, "0");
+        var minutes = String(absOffset % 60).padStart(2, "0");
+  
+        return `UTC${sign}${hours}${minutes}`;
+      }
+  
+      var winterName = extractZone(winterOffset);
+      var summerName = extractZone(summerOffset);
       assert(winterName);
       assert(summerName);
       assert(lengthBytesUTF8(winterName) <= 16, `timezone name truncated to fit in TZNAME_MAX (${winterName})`);
@@ -9106,7 +9117,7 @@ var ASM_CONSTS = {
         setLimitValueU64('maxStorageBufferBindingSize', 64);
     
         setLimitValueU32('maxVertexBuffers', 80);
-        setLimitValueU32('maxBufferSize', 88);
+        setLimitValueU64('maxBufferSize', 88);
         setLimitValueU32('maxVertexAttributes', 96);
         setLimitValueU32('maxVertexBufferArrayStride', 100);
         setLimitValueU32('maxInterStageShaderComponents', 104);
@@ -9248,7 +9259,7 @@ var ASM_CONSTS = {
           setLimitU64IfDefined("maxUniformBufferBindingSize", 56);
           setLimitU64IfDefined("maxStorageBufferBindingSize", 64);
           setLimitU32IfDefined("maxVertexBuffers", 80);
-          setLimitU32IfDefined("maxBufferSize", 88);
+          setLimitU64IfDefined("maxBufferSize", 88);
           setLimitU32IfDefined("maxVertexAttributes", 96);
           setLimitU32IfDefined("maxVertexBufferArrayStride", 100);
           setLimitU32IfDefined("maxInterStageShaderComponents", 104);
