@@ -35,8 +35,8 @@ jobs:
         git clone https://github.com/emscripten-core/emsdk.git
         fi
         cd emsdk
-        ./emsdk install 3.1.65
-        ./emsdk activate 3.1.65
+        ./emsdk install 3.1.63
+        ./emsdk activate 3.1.63
         source ./emsdk_env.sh
         cd ..
 
