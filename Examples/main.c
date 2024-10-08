@@ -282,13 +282,8 @@ static void emsc_frame(void *userdata) {
       gotoExampleIndex = 0;
       CommonQuit(&ctx);
       return;
-      /*return false;*/
     }
-    /*emscripten_debugger();*/
-    /*SDL_GL_SwapWindow(context->Window);*/
-    /*emscripten_request_animation_frame_loop(emsc_frame, context);*/
     return;
-    /*return true;*/
   }
 
   // if update returns false,
