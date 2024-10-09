@@ -11,18 +11,30 @@
 
 // Include all the examples here
 static Example *Examples[] = {
-    &ClearScreen_Example,        &BasicTriangle_Example,
-    &BasicVertexBuffer_Example,  &CullMode_Example,
-    &BasicStencil_Example,       &InstancedIndexed_Example,
-    &TexturedQuad_Example,       &TexturedAnimatedQuad_Example,
-    &Clear3DSlice_Example,       &BasicCompute_Example,
-    &ComputeUniforms_Example,    &ToneMapping_Example,
-    &CustomSampling_Example,     &DrawIndirect_Example,
-    &ComputeSpriteBatch_Example, &CopyAndReadback_Example,
-    &CopyConsistency_Example,    &Texture2DArray_Example,
-    &TriangleMSAA_Example,       &Cubemap_Example,
-    &WindowResize_Example,       &Blit2DArray_Example,
-    &BlitCube_Example,           &BlitMirror_Example,
+    &ClearScreen_Example,
+    &BasicTriangle_Example,
+    &BasicVertexBuffer_Example,
+    &CullMode_Example,
+    &BasicStencil_Example,
+    &InstancedIndexed_Example,
+    &TexturedQuad_Example,
+    &TexturedAnimatedQuad_Example,
+    &Clear3DSlice_Example,
+    &BasicCompute_Example,
+    &ComputeUniforms_Example,
+    &ToneMapping_Example,
+    &CustomSampling_Example,
+    &DrawIndirect_Example,
+    &ComputeSpriteBatch_Example,
+    &CopyAndReadback_Example,
+    &CopyConsistency_Example,
+    &Texture2DArray_Example,
+    &TriangleMSAA_Example,
+    &Cubemap_Example,
+    &WindowResize_Example,
+    &Blit2DArray_Example,
+    &BlitCube_Example,
+    &BlitMirror_Example,
     &GenerateMipmaps_Example,
 };
 
@@ -180,7 +192,6 @@ void process_events(Context *context) {
       }
       break;
     case SDL_EVENT_MOUSE_MOTION:
-      SDL_Log("Mouse motion detected!");
       break;
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
       if (evt.button.button == SDL_BUTTON_LEFT) {
@@ -199,7 +210,7 @@ void process_events(Context *context) {
     // in the event queue as there is an issue with mouse events flooding the
     // event queue on browsers.
     if (SDL_GetTicks() - start > 2) {
-      SDL_Log("Emptying mouse events from the queue!");
+      SDL_Log("Queue Overloaded: Emptying mouse events from the queue!");
       while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_MOUSE_MOTION,
                             SDL_EVENT_MOUSE_MOTION) > 0) {
         //
