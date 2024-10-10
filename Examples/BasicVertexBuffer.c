@@ -4,59 +4,6 @@
 static SDL_GPUGraphicsPipeline *Pipeline;
 static SDL_GPUBuffer *VertexBuffer;
 
-// Added for WebGPU testing purposes
-static void readBackFromVB(Context *context) {
-  SDL_Log("Reading from the vertex buffer that we just wrote to...");
-
-  // Create a transfer buffer to download the vertex buffer data
-  SDL_GPUTransferBuffer *transferBuffer = SDL_CreateGPUTransferBuffer(
-      context->Device, &(SDL_GPUTransferBufferCreateInfo){
-                           .usage = SDL_GPU_TRANSFERBUFFERUSAGE_DOWNLOAD,
-                           .size = sizeof(PositionColorVertex) * 3});
-
-  // Acquire a command buffer to handle the download
-  SDL_GPUCommandBuffer *downloadCmdBuf =
-      SDL_AcquireGPUCommandBuffer(context->Device);
-
-  // Begin a copy pass to download the vertex buffer data using the cmdBuf
-  // This effectively creates a commandEncoder to handle the download
-  SDL_GPUCopyPass *copyPass = SDL_BeginGPUCopyPass(downloadCmdBuf);
-
-  // Copy the first 3 PositionColorVertex structs from
-  // the vertex buffer to the transfer buffer using a
-  // wgpuCommandEncoderCopyBufferToBuffer call
-  SDL_DownloadFromGPUBuffer(
-      copyPass,
-      &(SDL_GPUBufferRegion){.buffer = VertexBuffer,
-                             .offset = 0,
-                             .size = sizeof(PositionColorVertex) * 3},
-      &(SDL_GPUTransferBufferLocation){.transfer_buffer = transferBuffer,
-                                       .offset = 0});
-
-  // End the copy pass and submit the command buffer
-  SDL_EndGPUCopyPass(copyPass);
-  SDL_SubmitGPUCommandBuffer(downloadCmdBuf);
-
-  // Get a pointer to the mapped data in the transfer buffer.
-  // This is a blocking call that waits for the download to complete.
-  PositionColorVertex *transferData =
-      SDL_MapGPUTransferBuffer(context->Device, transferBuffer, false);
-
-  SDL_Log("Data read from the vertex buffer:");
-  SDL_Log("First vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[0].x,
-          transferData[0].y, transferData[0].z, transferData[0].r,
-          transferData[0].g, transferData[0].b, transferData[0].a);
-  SDL_Log("Second vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[1].x,
-          transferData[1].y, transferData[1].z, transferData[1].r,
-          transferData[1].g, transferData[1].b, transferData[1].a);
-  SDL_Log("Third vertex: (%f, %f, %f) (%d, %d, %d, %d)", transferData[2].x,
-          transferData[2].y, transferData[2].z, transferData[2].r,
-          transferData[2].g, transferData[2].b, transferData[2].a);
-
-  SDL_UnmapGPUTransferBuffer(context->Device, transferBuffer);
-  SDL_ReleaseGPUTransferBuffer(context->Device, transferBuffer);
-}
-
 static int Init(Context *context) {
   /*int result = CommonInit(context, 0);*/
   /*if (result < 0)*/
@@ -164,10 +111,6 @@ static int Init(Context *context) {
   SDL_EndGPUCopyPass(copyPass);
   SDL_SubmitGPUCommandBuffer(uploadCmdBuf);
   SDL_ReleaseGPUTransferBuffer(context->Device, transferBuffer);
-
-  // This is just to show that the data was successfully uploaded to the vertex
-  // buffer Also showcases readback from a GPU buffer using a transfer buffer
-  readBackFromVB(context);
 
   return 0;
 }

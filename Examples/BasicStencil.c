@@ -6,10 +6,10 @@ static SDL_GPUBuffer *VertexBuffer;
 static SDL_GPUTexture *DepthStencilTexture;
 
 static int Init(Context *context) {
-  int result = CommonInit(context, 0);
-  if (result < 0) {
-    return result;
-  }
+  /*int result = CommonInit(context, 0);*/
+  /*if (result < 0) {*/
+  /*  return result;*/
+  /*}*/
 
   SDL_GPUShader *vertexShader =
       LoadShader(context->Device, "PositionColor.vert", 0, 0, 0, 0);
