@@ -25,6 +25,10 @@ var ENVIRONMENT_IS_WORKER = typeof importScripts == 'function';
 var ENVIRONMENT_IS_NODE = typeof process == 'object' && typeof process.versions == 'object' && typeof process.versions.node == 'string' && process.type != 'renderer';
 var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
 
+if (Module['ENVIRONMENT']) {
+  throw new Error('Module.ENVIRONMENT has been deprecated. To force the environment, use the ENVIRONMENT compile-time option (for example, -sENVIRONMENT=web or -sENVIRONMENT=node)');
+}
+
 if (ENVIRONMENT_IS_NODE) {
   // `require()` is no-op in an ESM module, use `createRequire()` to construct
   // the require()` function.  This is only necessary for multi-environment
@@ -35,7 +39,7 @@ if (ENVIRONMENT_IS_NODE) {
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmp4t_6bb2l.js
+// include: /tmp/tmps5grrdbf.js
 
   if (!Module['expectedDataFileDownloads']) {
     Module['expectedDataFileDownloads'] = 0;
@@ -227,21 +231,21 @@ Module['FS_createPath']("/Content/Shaders", "Source", true, true);
 
   })();
 
-// end include: /tmp/tmp4t_6bb2l.js
-// include: /tmp/tmp39x08k5t.js
+// end include: /tmp/tmps5grrdbf.js
+// include: /tmp/tmp5gbwxp4v.js
 
     // All the pre-js content up to here must remain later on, we need to run
     // it.
     if (Module['$ww'] || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD)) Module['preRun'] = [];
     var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: /tmp/tmp39x08k5t.js
-// include: /tmp/tmpvps4q58s.js
+  // end include: /tmp/tmp5gbwxp4v.js
+// include: /tmp/tmpajofwit3.js
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach((task) => {
       if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
     });
-  // end include: /tmp/tmpvps4q58s.js
+  // end include: /tmp/tmpajofwit3.js
 
 
 // Sometimes an existing Module object exists with properties
@@ -613,10 +617,11 @@ var __ATPOSTRUN__ = []; // functions called after the main() is called
 var runtimeInitialized = false;
 
 function preRun() {
-  var preRuns = Module['preRun'];
-  if (preRuns) {
-    if (typeof preRuns == 'function') preRuns = [preRuns];
-    preRuns.forEach(addOnPreRun);
+  if (Module['preRun']) {
+    if (typeof Module['preRun'] == 'function') Module['preRun'] = [Module['preRun']];
+    while (Module['preRun'].length) {
+      addOnPreRun(Module['preRun'].shift());
+    }
   }
   callRuntimeCallbacks(__ATPRERUN__);
 }
@@ -645,10 +650,11 @@ function preMain() {
 function postRun() {
   checkStackCookie();
 
-  var postRuns = Module['postRun'];
-  if (postRuns) {
-    if (typeof postRuns == 'function') postRuns = [postRuns];
-    postRuns.forEach(addOnPostRun);
+  if (Module['postRun']) {
+    if (typeof Module['postRun'] == 'function') Module['postRun'] = [Module['postRun']];
+    while (Module['postRun'].length) {
+      addOnPostRun(Module['postRun'].shift());
+    }
   }
 
   callRuntimeCallbacks(__ATPOSTRUN__);
@@ -1026,10 +1032,6 @@ var tempI64;
   if (h8[0] !== 0x73 || h8[1] !== 0x63) throw 'Runtime error: expected the system to be little-endian! (Run with -sSUPPORT_BIG_ENDIAN to bypass)';
 })();
 
-if (Module['ENVIRONMENT']) {
-  throw new Error('Module.ENVIRONMENT has been deprecated. To force the environment, use the ENVIRONMENT compile-time option (for example, -sENVIRONMENT=web or -sENVIRONMENT=node)');
-}
-
 function legacyModuleProp(prop, newName, incoming=true) {
   if (!Object.getOwnPropertyDescriptor(Module, prop)) {
     Object.defineProperty(Module, prop, {
@@ -1178,8 +1180,10 @@ var ASM_CONSTS = {
     }
 
   var callRuntimeCallbacks = (callbacks) => {
-      // Pass the module as the first argument.
-      callbacks.forEach((f) => f(Module));
+      while (callbacks.length > 0) {
+        // Pass the module as the first argument.
+        callbacks.shift()(Module);
+      }
     };
 
   
@@ -1252,18 +1256,18 @@ var ASM_CONSTS = {
      * array that contains uint8 values, returns a copy of that string as a
      * Javascript String object.
      * heapOrArray is either a regular array, or a JavaScript typed array view.
-     * @param {number=} idx
+     * @param {number} idx
      * @param {number=} maxBytesToRead
      * @return {string}
      */
-  var UTF8ArrayToString = (heapOrArray, idx = 0, maxBytesToRead = NaN) => {
+  var UTF8ArrayToString = (heapOrArray, idx, maxBytesToRead) => {
       var endIdx = idx + maxBytesToRead;
       var endPtr = idx;
       // TextDecoder needs to know the byte length in advance, it doesn't stop on
       // null terminator by itself.  Also, use the length info to avoid running tiny
       // strings through TextDecoder, since .subarray() allocates garbage.
       // (As a tiny code save trick, compare endPtr against endIdx using a negation,
-      // so that undefined/NaN means Infinity)
+      // so that undefined means Infinity)
       while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr;
   
       if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
@@ -1881,7 +1885,7 @@ var ASM_CONSTS = {
         },
   put_char(tty, val) {
           if (val === null || val === 10) {
-            out(UTF8ArrayToString(tty.output));
+            out(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
           } else {
             if (val != 0) tty.output.push(val); // val == 0 would cut text output off in the middle.
@@ -1889,7 +1893,7 @@ var ASM_CONSTS = {
         },
   fsync(tty) {
           if (tty.output && tty.output.length > 0) {
-            out(UTF8ArrayToString(tty.output));
+            out(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
           }
         },
@@ -1918,7 +1922,7 @@ var ASM_CONSTS = {
   default_tty1_ops:{
   put_char(tty, val) {
           if (val === null || val === 10) {
-            err(UTF8ArrayToString(tty.output));
+            err(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
           } else {
             if (val != 0) tty.output.push(val);
@@ -1926,7 +1930,7 @@ var ASM_CONSTS = {
         },
   fsync(tty) {
           if (tty.output && tty.output.length > 0) {
-            err(UTF8ArrayToString(tty.output));
+            err(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
           }
         },
@@ -3603,7 +3607,7 @@ var ASM_CONSTS = {
         var buf = new Uint8Array(length);
         FS.read(stream, buf, 0, length, 0);
         if (opts.encoding === 'utf8') {
-          ret = UTF8ArrayToString(buf);
+          ret = UTF8ArrayToString(buf, 0);
         } else if (opts.encoding === 'binary') {
           ret = buf;
         }
@@ -8081,7 +8085,7 @@ var ASM_CONSTS = {
   
   var growMemory = (size) => {
       var b = wasmMemory.buffer;
-      var pages = ((size - b.byteLength + 65535) / 65536) | 0;
+      var pages = (size - b.byteLength + 65535) / 65536;
       try {
         // round size grow request up to wasm page size (fixed 64KB per spec)
         wasmMemory.grow(pages); // .grow() takes a delta compared to the previous size
@@ -9561,19 +9565,12 @@ var ASM_CONSTS = {
       return WebGPU.mgrRenderPassEncoder.create(commandEncoder.beginRenderPass(desc));
     };
 
-  
-  function _wgpuCommandEncoderCopyBufferToBuffer(encoderId,srcId,srcOffset_low, srcOffset_high,dstId,dstOffset_low, dstOffset_high,size_low, size_high) {
-    var srcOffset = convertI32PairToI53Checked(srcOffset_low, srcOffset_high);
-    var dstOffset = convertI32PairToI53Checked(dstOffset_low, dstOffset_high);
-    var size = convertI32PairToI53Checked(size_low, size_high);
-  
-    
+  var _wgpuCommandEncoderCopyBufferToBuffer = (encoderId, srcId, srcOffset, dstId, dstOffset, size) => {
       var commandEncoder = WebGPU.mgrCommandEncoder.get(encoderId);
       var src = WebGPU.mgrBuffer.get(srcId);
       var dst = WebGPU.mgrBuffer.get(dstId);
       commandEncoder.copyBufferToBuffer(src, srcOffset, dst, dstOffset, size);
-    ;
-  }
+    };
 
   var _wgpuCommandEncoderFinish = (encoderId, descriptor) => {
       // TODO: Use the descriptor.
@@ -10191,18 +10188,12 @@ var ASM_CONSTS = {
       pass.setScissorRect(x, y, w, h);
     };
 
-  
-  function _wgpuRenderPassEncoderSetVertexBuffer(passId,slot,bufferId,offset_low, offset_high,size_low, size_high) {
-    var offset = convertI32PairToI53Checked(offset_low, offset_high);
-    var size = convertI32PairToI53Checked(size_low, size_high);
-  
-    
+  var _wgpuRenderPassEncoderSetVertexBuffer = (passId, slot, bufferId, offset, size) => {
       var pass = WebGPU.mgrRenderPassEncoder.get(passId);
       var buffer = WebGPU.mgrBuffer.get(bufferId);
       if (size == -1) size = undefined;
       pass.setVertexBuffer(slot, buffer, offset, size);
-    ;
-  }
+    };
 
   var _wgpuRenderPassEncoderSetViewport = (passId, x, y, w, h, minDepth, maxDepth) => {
       var pass = WebGPU.mgrRenderPassEncoder.get(passId);
@@ -11960,7 +11951,6 @@ unexportedSymbols.forEach(unexportedRuntimeSymbol);
 
 
 var calledRun;
-var calledPrerun;
 
 dependenciesFulfilled = function runCaller() {
   // If run has never been called, and we should call run (INVOKE_RUN is true, and Module.noInitialRun is not false)
@@ -11970,7 +11960,7 @@ dependenciesFulfilled = function runCaller() {
 
 function callMain(args = []) {
   assert(runDependencies == 0, 'cannot call main when async dependencies remain! (listen on Module["onRuntimeInitialized"])');
-  assert(calledPrerun, 'cannot call main without calling preRun first');
+  assert(__ATPRERUN__.length == 0, 'cannot call main when preRun functions remain to be called');
 
   var entryFunction = _main;
 
@@ -12015,22 +12005,19 @@ function run(args = arguments_) {
 
     stackCheckInit();
 
-  if (!calledPrerun) {
-    calledPrerun = 1;
-    preRun();
+  preRun();
 
-    // a preRun added a dependency, run will be called later
-    if (runDependencies > 0) {
-      return;
-    }
+  // a preRun added a dependency, run will be called later
+  if (runDependencies > 0) {
+    return;
   }
 
   function doRun() {
     // run may have just been called through dependencies being fulfilled just in this very frame,
     // or while the async setStatus time below was happening
     if (calledRun) return;
-    calledRun = 1;
-    Module['calledRun'] = 1;
+    calledRun = true;
+    Module['calledRun'] = true;
 
     if (ABORT) return;
 
