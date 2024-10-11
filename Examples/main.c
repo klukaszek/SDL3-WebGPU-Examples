@@ -15,7 +15,7 @@ static Example *Examples[] = {
     &BasicTriangle_Example,
     &BasicVertexBuffer_Example,
     &CullMode_Example,
-    &BasicStencil_Example,
+    /*&BasicStencil_Example,*/
     &InstancedIndexed_Example,
     &TexturedQuad_Example,
     &TexturedAnimatedQuad_Example,
@@ -38,31 +38,31 @@ static Example *Examples[] = {
     &GenerateMipmaps_Example,
 };
 
-static EM_BOOL emsc_dummy_key_callback(int type,
+static bool emsc_dummy_key_callback(int type,
                                        const EmscriptenKeyboardEvent *ev,
                                        void *userdata) {
   if (ev->ctrlKey || ev->altKey || ev->metaKey) {
     SDL_Log("Key down: %s (ctrl/alt/meta)", ev->key);
   }
-  return EM_TRUE;
+  return true;
 }
 
-static EM_BOOL emsc_dummy_mousebutton_callback(int type,
+static bool emsc_dummy_mousebutton_callback(int type,
                                                const EmscriptenMouseEvent *ev,
                                                void *userdata) {
-  return EM_TRUE;
+  return true;
 }
 
-static EM_BOOL emsc_dummy_mousewheel_callback(int type,
+static bool emsc_dummy_mousewheel_callback(int type,
                                               const EmscriptenWheelEvent *ev,
                                               void *userdata) {
-  return EM_TRUE;
+  return true;
 }
 
-static EM_BOOL emsc_dummy_touch_callback(int type,
+static bool emsc_dummy_touch_callback(int type,
                                          const EmscriptenTouchEvent *ev,
                                          void *userdata) {
-  return EM_TRUE;
+  return true;
 }
 
 // Global variables for managing the state of the example suite.
