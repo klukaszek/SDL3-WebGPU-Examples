@@ -63,7 +63,7 @@ SDL_GPUShader *LoadShader(SDL_GPUDevice *device, const char *shaderFilename,
   }
 
   char fullPath[256];
-  SDL_snprintf(fullPath, sizeof(fullPath), "%sContent/Shaders/Compiled/%s.spv",
+  SDL_snprintf(fullPath, sizeof(fullPath), "%sContent/Shaders/WGSL/%s.wgsl",
                BasePath, shaderFilename);
 
   size_t codeSize;
@@ -77,7 +77,7 @@ SDL_GPUShader *LoadShader(SDL_GPUDevice *device, const char *shaderFilename,
       .code = code,
       .code_size = codeSize,
       .entrypoint = "main",
-      .format = SDL_GPU_SHADERFORMAT_SPIRV,
+      .format = SDL_GPU_SHADERFORMAT_WGSL,
       .stage = stage,
       .num_samplers = samplerCount,
       .num_uniform_buffers = uniformBufferCount,
@@ -85,7 +85,7 @@ SDL_GPUShader *LoadShader(SDL_GPUDevice *device, const char *shaderFilename,
       .num_storage_textures = storageTextureCount};
 
   SDL_GPUShader *shader =
-      SDL_ShaderCross_CompileFromSPIRV(device, &shaderInfo, false);
+      SDL_ShaderCross_CompileFromWGSL(device, &shaderInfo, false);
   if (shader == NULL) {
     SDL_Log("Failed to create shader!");
     SDL_free(code);

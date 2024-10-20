@@ -71,7 +71,6 @@ static int Init(Context *context) {
                        .format = SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2,
                        .location = 1,
                        .offset = sizeof(float) * 3}}},
-
       .multisample_state.sample_mask = 0xFFFF,
       .primitive_type = SDL_GPU_PRIMITIVETYPE_TRIANGLELIST,
       .vertex_shader = vertexShader,
