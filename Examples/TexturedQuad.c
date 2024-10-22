@@ -206,7 +206,6 @@ static int Init(Context *context) {
       context->Device, &(SDL_GPUTransferBufferCreateInfo){
                            .usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
                            .size = imageData->w * imageData->h * 4});
-
   Uint8 *textureTransferPtr =
       SDL_MapGPUTransferBuffer(context->Device, textureTransferBuffer, false);
   SDL_memcpy(textureTransferPtr, imageData->pixels,
