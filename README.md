@@ -31,6 +31,7 @@ To clone and build examples:
 git clone https://github.com/klukaszek/SDL3-WebGPU-Examples
 cd SDL3-WebGPU-Examples
 git submodule update --init
+git submodule update --remote
 mkdir build
 cd build
 emcmake cmake .. -DSDL3_DIR="full/path/to/SDL/build"
