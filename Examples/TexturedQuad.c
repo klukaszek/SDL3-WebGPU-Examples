@@ -18,7 +18,6 @@ static int Init(Context *context) {
   /*if (result < 0) {*/
   /*  return result;*/
   /*}*/
-
   // Create the shaders
   SDL_GPUShader *vertexShader =
       LoadShader(context->Device, "TexturedQuad.vert", 0, 0, 0, 0);
