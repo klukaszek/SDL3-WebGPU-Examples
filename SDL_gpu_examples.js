@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpb0bskkc2.js
+// include: /tmp/tmpqk3rsh3t.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -508,23 +508,23 @@ Module.expectedDataFileDownloads++;
   });
 })();
 
-// end include: /tmp/tmpb0bskkc2.js
-// include: /tmp/tmpm3jd000u.js
+// end include: /tmp/tmpqk3rsh3t.js
+// include: /tmp/tmpyazlwmnk.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpm3jd000u.js
-// include: /tmp/tmp3oee5i8e.js
+// end include: /tmp/tmpyazlwmnk.js
+// include: /tmp/tmpribw2fkt.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp3oee5i8e.js
+// end include: /tmp/tmpribw2fkt.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -1481,7 +1481,7 @@ function dbg(...args) {
 // end include: runtime_debug.js
 // === Body ===
 var ASM_CONSTS = {
-  646748: $0 => {
+  646940: $0 => {
     var str = UTF8ToString($0) + "\n\n" + "Abort/Retry/Ignore/AlwaysIgnore? [ariA] :";
     var reply = window.prompt(str, "i");
     if (reply === null) {
@@ -1489,7 +1489,7 @@ var ASM_CONSTS = {
     }
     return allocate(intArrayFromString(reply), "i8", ALLOC_NORMAL);
   },
-  646973: () => {
+  647165: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1498,7 +1498,7 @@ var ASM_CONSTS = {
     Module["SDL3"].dummy_audio.timers[0] = undefined;
     Module["SDL3"].dummy_audio.timers[1] = undefined;
   },
-  647219: ($0, $1, $2, $3, $4) => {
+  647411: ($0, $1, $2, $3, $4) => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
@@ -1507,14 +1507,14 @@ var ASM_CONSTS = {
       dynCall("vi", $3, [ $4 ]);
     }, ($1 / $2) * 1e3);
   },
-  647411: $0 => {
+  647603: $0 => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
     }
     a.timers[$0] = undefined;
   },
-  647542: $0 => {
+  647734: $0 => {
     var parms = new URLSearchParams(window.location.search);
     for (const [key, value] of parms) {
       if (key.startsWith("SDL_")) {
@@ -1528,7 +1528,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  647849: () => {
+  648041: () => {
     if (typeof (AudioContext) !== "undefined") {
       return true;
     } else if (typeof (webkitAudioContext) !== "undefined") {
@@ -1536,7 +1536,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  647996: () => {
+  648188: () => {
     if ((typeof (navigator.mediaDevices) !== "undefined") && (typeof (navigator.mediaDevices.getUserMedia) !== "undefined")) {
       return true;
     } else if (typeof (navigator.webkitGetUserMedia) !== "undefined") {
@@ -1544,7 +1544,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  648230: $0 => {
+  648422: $0 => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1568,8 +1568,8 @@ var ASM_CONSTS = {
     }
     return (SDL3.audioContext !== undefined);
   },
-  648793: () => Module["SDL3"].audioContext.sampleRate,
-  648844: ($0, $1, $2, $3) => {
+  648985: () => Module["SDL3"].audioContext.sampleRate,
+  649036: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     var have_microphone = function(stream) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1611,7 +1611,7 @@ var ASM_CONSTS = {
       }, have_microphone, no_microphone);
     }
   },
-  650685: ($0, $1, $2, $3) => {
+  650877: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     SDL3.audio_playback.scriptProcessorNode = SDL3.audioContext["createScriptProcessor"]($1, 0, $0);
     SDL3.audio_playback.scriptProcessorNode["onaudioprocess"] = function(e) {
@@ -1643,7 +1643,7 @@ var ASM_CONSTS = {
       SDL3.audio_playback.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     }
   },
-  652001: $0 => {
+  652193: $0 => {
     var SDL3 = Module["SDL3"];
     if ($0) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1677,7 +1677,7 @@ var ASM_CONSTS = {
       SDL3.audioContext = undefined;
     }
   },
-  653157: ($0, $1) => {
+  653349: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_playback.currentPlaybackBuffer["numberOfChannels"];
     for (var c = 0; c < numChannels; ++c) {
@@ -1690,7 +1690,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  653661: ($0, $1) => {
+  653853: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_recording.currentRecordingBuffer.numberOfChannels;
     for (var c = 0; c < numChannels; ++c) {
@@ -1709,14 +1709,14 @@ var ASM_CONSTS = {
       }
     }
   },
-  654288: () => {
+  654480: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
     Module["SDL3"].camera = {};
   },
-  654389: () => (navigator.mediaDevices === undefined) ? 0 : 1,
-  654448: ($0, $1, $2, $3, $4, $5, $6) => {
+  654581: () => (navigator.mediaDevices === undefined) ? 0 : 1,
+  654640: ($0, $1, $2, $3, $4, $5, $6) => {
     const device = $0;
     const w = $1;
     const h = $2;
@@ -1789,7 +1789,7 @@ var ASM_CONSTS = {
       dynCall("viiiii", outcome, [ device, 0, 0, 0, 0 ]);
     });
   },
-  656731: () => {
+  656923: () => {
     const SDL3 = Module["SDL3"];
     if ((typeof (SDL3) === "undefined") || (typeof (SDL3.camera) === "undefined") || (typeof (SDL3.camera.stream) === "undefined")) {
       return;
@@ -1797,7 +1797,7 @@ var ASM_CONSTS = {
     SDL3.camera.stream.getTracks().forEach(track => track.stop());
     SDL3.camera = {};
   },
-  656982: ($0, $1, $2) => {
+  657174: ($0, $1, $2) => {
     const w = $0;
     const h = $1;
     const rgba = $2;
@@ -1810,12 +1810,12 @@ var ASM_CONSTS = {
     Module.HEAPU8.set(imgrgba, rgba);
     return 1;
   },
-  657367: () => {
+  657559: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       Module["SDL3"].camera = undefined;
     }
   },
-  657454: ($0, $1, $2, $3) => {
+  657646: ($0, $1, $2, $3) => {
     var w = $0;
     var h = $1;
     var pixels = $2;
@@ -1875,7 +1875,7 @@ var ASM_CONSTS = {
     }
     SDL3.ctx.putImageData(SDL3.image, 0, 0);
   },
-  658686: ($0, $1, $2, $3, $4) => {
+  658878: ($0, $1, $2, $3, $4) => {
     var w = $0;
     var h = $1;
     var hot_x = $2;
@@ -1896,17 +1896,17 @@ var ASM_CONSTS = {
     stringToUTF8(url, urlBuf, url.length + 1);
     return urlBuf;
   },
-  659345: $0 => {
+  659537: $0 => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = UTF8ToString($0);
     }
   },
-  659428: () => {
+  659620: () => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = "none";
     }
   },
-  659497: ($0, $1, $2) => {
+  659689: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -1966,7 +1966,7 @@ var ASM_CONSTS = {
       target.addEventListener("pointermove", SDL3.eventHandlerPointerGeneric);
     }
   },
-  661290: $0 => {
+  661482: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -1981,8 +1981,8 @@ var ASM_CONSTS = {
       SDL3.eventHandlerPointerGeneric = undefined;
     }
   },
-  661975: () => window.innerWidth,
-  662005: () => window.innerHeight
+  662167: () => window.innerWidth,
+  662197: () => window.innerHeight
 };
 
 // end include: preamble.js
@@ -10005,33 +10005,6 @@ var _wgpuBufferGetConstMappedRange = (bufferId, offset, size) => {
   return data;
 };
 
-var _wgpuBufferGetMappedRange = (bufferId, offset, size) => {
-  var bufferWrapper = WebGPU.mgrBuffer.objects[bufferId];
-  assert(typeof bufferWrapper != "undefined");
-  if (size === 0) warnOnce("getMappedRange size=0 no longer means WGPU_WHOLE_MAP_SIZE");
-  if (size == -1) size = undefined;
-  if (bufferWrapper.mapMode !== 2) {
-    abort("GetMappedRange called, but buffer not mapped for writing");
-    // TODO(kainino0x): Somehow inject a validation error?
-    return 0;
-  }
-  var mapped;
-  try {
-    mapped = bufferWrapper.object.getMappedRange(offset, size);
-  } catch (ex) {
-    err(`wgpuBufferGetMappedRange(${offset}, ${size}) failed: ${ex}`);
-    // TODO(kainino0x): Somehow inject a validation error?
-    return 0;
-  }
-  var data = _memalign(16, mapped.byteLength);
-  HEAPU8.fill(0, data, mapped.byteLength);
-  bufferWrapper.onUnmap.push(() => {
-    new Uint8Array(mapped).set(HEAPU8.subarray(data, data + mapped.byteLength));
-    _free(data);
-  });
-  return data;
-};
-
 var _wgpuBufferMapAsync = (bufferId, mode, offset, size, callback, userdata) => {
   var bufferWrapper = WebGPU.mgrBuffer.objects[bufferId];
   assert(typeof bufferWrapper != "undefined");
@@ -10175,6 +10148,57 @@ var _wgpuCommandEncoderFinish = (encoderId, descriptor) => {
 };
 
 var _wgpuCommandEncoderRelease = id => WebGPU.mgrCommandEncoder.release(id);
+
+var _wgpuDeviceCreateBindGroup = (deviceId, descriptor) => {
+  assert(descriptor);
+  assert(SAFE_HEAP_LOAD(((descriptor) >> 2) * 4, 4, 1) === 0);
+  function makeEntry(entryPtr) {
+    assert(entryPtr);
+    var bufferId = SAFE_HEAP_LOAD((((entryPtr) + (8)) >> 2) * 4, 4, 1);
+    var samplerId = SAFE_HEAP_LOAD((((entryPtr) + (32)) >> 2) * 4, 4, 1);
+    var textureViewId = SAFE_HEAP_LOAD((((entryPtr) + (36)) >> 2) * 4, 4, 1);
+    assert((bufferId !== 0) + (samplerId !== 0) + (textureViewId !== 0) === 1);
+    var binding = SAFE_HEAP_LOAD((((entryPtr) + (4)) >> 2) * 4, 4, 1);
+    if (bufferId) {
+      var size = readI53FromI64((entryPtr) + (24));
+      if (size == -1) size = undefined;
+      return {
+        "binding": binding,
+        "resource": {
+          "buffer": WebGPU.mgrBuffer.get(bufferId),
+          "offset": SAFE_HEAP_LOAD(((((entryPtr + 4)) + (16)) >> 2) * 4, 4, 1) * 4294967296 + SAFE_HEAP_LOAD((((entryPtr) + (16)) >> 2) * 4, 4, 1),
+          "size": size
+        }
+      };
+    } else if (samplerId) {
+      return {
+        "binding": binding,
+        "resource": WebGPU.mgrSampler.get(samplerId)
+      };
+    } else {
+      return {
+        "binding": binding,
+        "resource": WebGPU.mgrTextureView.get(textureViewId)
+      };
+    }
+  }
+  function makeEntries(count, entriesPtrs) {
+    var entries = [];
+    for (var i = 0; i < count; ++i) {
+      entries.push(makeEntry(entriesPtrs + 40 * i));
+    }
+    return entries;
+  }
+  var desc = {
+    "label": undefined,
+    "layout": WebGPU.mgrBindGroupLayout.get(SAFE_HEAP_LOAD((((descriptor) + (8)) >> 2) * 4, 4, 1)),
+    "entries": makeEntries(SAFE_HEAP_LOAD((((descriptor) + (12)) >> 2) * 4, 4, 1), SAFE_HEAP_LOAD((((descriptor) + (16)) >> 2) * 4, 4, 1))
+  };
+  var labelPtr = SAFE_HEAP_LOAD((((descriptor) + (4)) >> 2) * 4, 4, 1);
+  if (labelPtr) desc["label"] = UTF8ToString(labelPtr);
+  var device = WebGPU.mgrDevice.get(deviceId);
+  return WebGPU.mgrBindGroup.create(device.createBindGroup(desc));
+};
 
 var _wgpuDeviceCreateBindGroupLayout = (deviceId, descriptor) => {
   assert(descriptor);
@@ -10670,6 +10694,16 @@ var _wgpuQueueSubmit = (queueId, commandCount, commands) => {
   queue.submit(cmds);
 };
 
+function _wgpuQueueWriteBuffer(queueId, bufferId, bufferOffset_low, bufferOffset_high, data, size) {
+  var bufferOffset = convertI32PairToI53Checked(bufferOffset_low, bufferOffset_high);
+  var queue = WebGPU.mgrQueue.get(queueId);
+  var buffer = WebGPU.mgrBuffer.get(bufferId);
+  // There is a size limitation for ArrayBufferView. Work around by passing in a subarray
+  // instead of the whole heap. crbug.com/1201109
+  var subarray = HEAPU8.subarray(data, data + size);
+  queue.writeBuffer(buffer, bufferOffset, subarray, 0, size);
+}
+
 var _wgpuRenderPassEncoderDraw = (passId, vertexCount, instanceCount, firstVertex, firstInstance) => {
   var pass = WebGPU.mgrRenderPassEncoder.get(passId);
   pass.draw(vertexCount, instanceCount, firstVertex, firstInstance);
@@ -10686,6 +10720,20 @@ var _wgpuRenderPassEncoderEnd = encoderId => {
 };
 
 var _wgpuRenderPassEncoderRelease = id => WebGPU.mgrRenderPassEncoder.release(id);
+
+var _wgpuRenderPassEncoderSetBindGroup = (passId, groupIndex, groupId, dynamicOffsetCount, dynamicOffsetsPtr) => {
+  var pass = WebGPU.mgrRenderPassEncoder.get(passId);
+  var group = WebGPU.mgrBindGroup.get(groupId);
+  if (dynamicOffsetCount == 0) {
+    pass.setBindGroup(groupIndex, group);
+  } else {
+    var offsets = [];
+    for (var i = 0; i < dynamicOffsetCount; i++, dynamicOffsetsPtr += 4) {
+      offsets.push(SAFE_HEAP_LOAD(((dynamicOffsetsPtr) >> 2) * 4, 4, 1));
+    }
+    pass.setBindGroup(groupIndex, group, offsets);
+  }
+};
 
 function _wgpuRenderPassEncoderSetIndexBuffer(passId, bufferId, format, offset_low, offset_high, size_low, size_high) {
   var offset = convertI32PairToI53Checked(offset_low, offset_high);
@@ -10770,6 +10818,11 @@ var _wgpuTextureCreateView = (textureId, descriptor) => {
 };
 
 var _wgpuTextureRelease = id => WebGPU.mgrTexture.release(id);
+
+var _wgpuTextureSetLabel = (textureId, labelPtr) => {
+  var texture = WebGPU.mgrTexture.get(textureId);
+  texture.label = UTF8ToString(labelPtr);
+};
 
 var _wgpuTextureViewRelease = id => WebGPU.mgrTextureView.release(id);
 
@@ -11475,7 +11528,6 @@ var wasmImports = {
   /** @export */ segfault: segfault,
   /** @export */ wgpuAdapterRequestDevice: _wgpuAdapterRequestDevice,
   /** @export */ wgpuBufferGetConstMappedRange: _wgpuBufferGetConstMappedRange,
-  /** @export */ wgpuBufferGetMappedRange: _wgpuBufferGetMappedRange,
   /** @export */ wgpuBufferMapAsync: _wgpuBufferMapAsync,
   /** @export */ wgpuBufferRelease: _wgpuBufferRelease,
   /** @export */ wgpuBufferSetLabel: _wgpuBufferSetLabel,
@@ -11485,6 +11537,7 @@ var wasmImports = {
   /** @export */ wgpuCommandEncoderCopyBufferToBuffer: _wgpuCommandEncoderCopyBufferToBuffer,
   /** @export */ wgpuCommandEncoderFinish: _wgpuCommandEncoderFinish,
   /** @export */ wgpuCommandEncoderRelease: _wgpuCommandEncoderRelease,
+  /** @export */ wgpuDeviceCreateBindGroup: _wgpuDeviceCreateBindGroup,
   /** @export */ wgpuDeviceCreateBindGroupLayout: _wgpuDeviceCreateBindGroupLayout,
   /** @export */ wgpuDeviceCreateBuffer: _wgpuDeviceCreateBuffer,
   /** @export */ wgpuDeviceCreateCommandEncoder: _wgpuDeviceCreateCommandEncoder,
@@ -11500,10 +11553,12 @@ var wasmImports = {
   /** @export */ wgpuInstanceRequestAdapter: _wgpuInstanceRequestAdapter,
   /** @export */ wgpuPipelineLayoutRelease: _wgpuPipelineLayoutRelease,
   /** @export */ wgpuQueueSubmit: _wgpuQueueSubmit,
+  /** @export */ wgpuQueueWriteBuffer: _wgpuQueueWriteBuffer,
   /** @export */ wgpuRenderPassEncoderDraw: _wgpuRenderPassEncoderDraw,
   /** @export */ wgpuRenderPassEncoderDrawIndexed: _wgpuRenderPassEncoderDrawIndexed,
   /** @export */ wgpuRenderPassEncoderEnd: _wgpuRenderPassEncoderEnd,
   /** @export */ wgpuRenderPassEncoderRelease: _wgpuRenderPassEncoderRelease,
+  /** @export */ wgpuRenderPassEncoderSetBindGroup: _wgpuRenderPassEncoderSetBindGroup,
   /** @export */ wgpuRenderPassEncoderSetIndexBuffer: _wgpuRenderPassEncoderSetIndexBuffer,
   /** @export */ wgpuRenderPassEncoderSetPipeline: _wgpuRenderPassEncoderSetPipeline,
   /** @export */ wgpuRenderPassEncoderSetScissorRect: _wgpuRenderPassEncoderSetScissorRect,
@@ -11519,6 +11574,7 @@ var wasmImports = {
   /** @export */ wgpuSwapChainRelease: _wgpuSwapChainRelease,
   /** @export */ wgpuTextureCreateView: _wgpuTextureCreateView,
   /** @export */ wgpuTextureRelease: _wgpuTextureRelease,
+  /** @export */ wgpuTextureSetLabel: _wgpuTextureSetLabel,
   /** @export */ wgpuTextureViewRelease: _wgpuTextureViewRelease,
   /** @export */ wgpuTextureViewSetLabel: _wgpuTextureViewSetLabel
 };
