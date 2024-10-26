@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpqk3rsh3t.js
+// include: /tmp/tmpq0ksnsc1.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -508,23 +508,23 @@ Module.expectedDataFileDownloads++;
   });
 })();
 
-// end include: /tmp/tmpqk3rsh3t.js
-// include: /tmp/tmpyazlwmnk.js
+// end include: /tmp/tmpq0ksnsc1.js
+// include: /tmp/tmpqjlgs6vl.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpyazlwmnk.js
-// include: /tmp/tmpribw2fkt.js
+// end include: /tmp/tmpqjlgs6vl.js
+// include: /tmp/tmp9tqp1n2y.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmpribw2fkt.js
+// end include: /tmp/tmp9tqp1n2y.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -10704,6 +10704,17 @@ function _wgpuQueueWriteBuffer(queueId, bufferId, bufferOffset_low, bufferOffset
   queue.writeBuffer(buffer, bufferOffset, subarray, 0, size);
 }
 
+var _wgpuQueueWriteTexture = (queueId, destinationPtr, data, dataSize, dataLayoutPtr, writeSizePtr) => {
+  var queue = WebGPU.mgrQueue.get(queueId);
+  var destination = WebGPU.makeImageCopyTexture(destinationPtr);
+  var dataLayout = WebGPU.makeTextureDataLayout(dataLayoutPtr);
+  var writeSize = WebGPU.makeExtent3D(writeSizePtr);
+  // This subarray isn't strictly necessary, but helps work around an issue
+  // where Chromium makes a copy of the entire heap. crbug.com/1134457
+  var subarray = HEAPU8.subarray(data, data + dataSize);
+  queue.writeTexture(destination, subarray, dataLayout, writeSize);
+};
+
 var _wgpuRenderPassEncoderDraw = (passId, vertexCount, instanceCount, firstVertex, firstInstance) => {
   var pass = WebGPU.mgrRenderPassEncoder.get(passId);
   pass.draw(vertexCount, instanceCount, firstVertex, firstInstance);
@@ -11554,6 +11565,7 @@ var wasmImports = {
   /** @export */ wgpuPipelineLayoutRelease: _wgpuPipelineLayoutRelease,
   /** @export */ wgpuQueueSubmit: _wgpuQueueSubmit,
   /** @export */ wgpuQueueWriteBuffer: _wgpuQueueWriteBuffer,
+  /** @export */ wgpuQueueWriteTexture: _wgpuQueueWriteTexture,
   /** @export */ wgpuRenderPassEncoderDraw: _wgpuRenderPassEncoderDraw,
   /** @export */ wgpuRenderPassEncoderDrawIndexed: _wgpuRenderPassEncoderDrawIndexed,
   /** @export */ wgpuRenderPassEncoderEnd: _wgpuRenderPassEncoderEnd,
