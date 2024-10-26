@@ -238,7 +238,7 @@ static int Init(Context *context) {
       copyPass,
       &(SDL_GPUTextureTransferInfo){
           .transfer_buffer = textureTransferBuffer,
-          .offset = 0, /* Zeros out the rest */
+          .offset = 0,
       },
       &(SDL_GPUTextureRegion){
           .texture = Texture, .w = imageData->w, .h = imageData->h, .d = 1},
