@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpq0ksnsc1.js
+// include: /tmp/tmp43pvlctm.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -490,41 +490,41 @@ Module.expectedDataFileDownloads++;
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.frag.wgsl",
       "start": 1428974,
-      "end": 1429284
+      "end": 1429352
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.vert.wgsl",
-      "start": 1429284,
-      "end": 1429704
+      "start": 1429352,
+      "end": 1429772
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadArray.frag.wgsl",
-      "start": 1429704,
-      "end": 1430102
+      "start": 1429772,
+      "end": 1430170
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadColor.frag.wgsl",
-      "start": 1430102,
-      "end": 1430500
+      "start": 1430170,
+      "end": 1430568
     } ],
-    "remote_package_size": 1430500
+    "remote_package_size": 1430568
   });
 })();
 
-// end include: /tmp/tmpq0ksnsc1.js
-// include: /tmp/tmpqjlgs6vl.js
+// end include: /tmp/tmp43pvlctm.js
+// include: /tmp/tmpq9lvii94.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpqjlgs6vl.js
-// include: /tmp/tmp9tqp1n2y.js
+// end include: /tmp/tmpq9lvii94.js
+// include: /tmp/tmp667tinty.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp9tqp1n2y.js
+// end include: /tmp/tmp667tinty.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -1481,7 +1481,7 @@ function dbg(...args) {
 // end include: runtime_debug.js
 // === Body ===
 var ASM_CONSTS = {
-  646940: $0 => {
+  646892: $0 => {
     var str = UTF8ToString($0) + "\n\n" + "Abort/Retry/Ignore/AlwaysIgnore? [ariA] :";
     var reply = window.prompt(str, "i");
     if (reply === null) {
@@ -1489,7 +1489,7 @@ var ASM_CONSTS = {
     }
     return allocate(intArrayFromString(reply), "i8", ALLOC_NORMAL);
   },
-  647165: () => {
+  647117: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1498,7 +1498,7 @@ var ASM_CONSTS = {
     Module["SDL3"].dummy_audio.timers[0] = undefined;
     Module["SDL3"].dummy_audio.timers[1] = undefined;
   },
-  647411: ($0, $1, $2, $3, $4) => {
+  647363: ($0, $1, $2, $3, $4) => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
@@ -1507,14 +1507,14 @@ var ASM_CONSTS = {
       dynCall("vi", $3, [ $4 ]);
     }, ($1 / $2) * 1e3);
   },
-  647603: $0 => {
+  647555: $0 => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
     }
     a.timers[$0] = undefined;
   },
-  647734: $0 => {
+  647686: $0 => {
     var parms = new URLSearchParams(window.location.search);
     for (const [key, value] of parms) {
       if (key.startsWith("SDL_")) {
@@ -1528,7 +1528,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  648041: () => {
+  647993: () => {
     if (typeof (AudioContext) !== "undefined") {
       return true;
     } else if (typeof (webkitAudioContext) !== "undefined") {
@@ -1536,7 +1536,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  648188: () => {
+  648140: () => {
     if ((typeof (navigator.mediaDevices) !== "undefined") && (typeof (navigator.mediaDevices.getUserMedia) !== "undefined")) {
       return true;
     } else if (typeof (navigator.webkitGetUserMedia) !== "undefined") {
@@ -1544,7 +1544,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  648422: $0 => {
+  648374: $0 => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1568,8 +1568,8 @@ var ASM_CONSTS = {
     }
     return (SDL3.audioContext !== undefined);
   },
-  648985: () => Module["SDL3"].audioContext.sampleRate,
-  649036: ($0, $1, $2, $3) => {
+  648937: () => Module["SDL3"].audioContext.sampleRate,
+  648988: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     var have_microphone = function(stream) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1611,7 +1611,7 @@ var ASM_CONSTS = {
       }, have_microphone, no_microphone);
     }
   },
-  650877: ($0, $1, $2, $3) => {
+  650829: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     SDL3.audio_playback.scriptProcessorNode = SDL3.audioContext["createScriptProcessor"]($1, 0, $0);
     SDL3.audio_playback.scriptProcessorNode["onaudioprocess"] = function(e) {
@@ -1643,7 +1643,7 @@ var ASM_CONSTS = {
       SDL3.audio_playback.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     }
   },
-  652193: $0 => {
+  652145: $0 => {
     var SDL3 = Module["SDL3"];
     if ($0) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1677,7 +1677,7 @@ var ASM_CONSTS = {
       SDL3.audioContext = undefined;
     }
   },
-  653349: ($0, $1) => {
+  653301: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_playback.currentPlaybackBuffer["numberOfChannels"];
     for (var c = 0; c < numChannels; ++c) {
@@ -1690,7 +1690,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  653853: ($0, $1) => {
+  653805: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_recording.currentRecordingBuffer.numberOfChannels;
     for (var c = 0; c < numChannels; ++c) {
@@ -1709,14 +1709,14 @@ var ASM_CONSTS = {
       }
     }
   },
-  654480: () => {
+  654432: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
     Module["SDL3"].camera = {};
   },
-  654581: () => (navigator.mediaDevices === undefined) ? 0 : 1,
-  654640: ($0, $1, $2, $3, $4, $5, $6) => {
+  654533: () => (navigator.mediaDevices === undefined) ? 0 : 1,
+  654592: ($0, $1, $2, $3, $4, $5, $6) => {
     const device = $0;
     const w = $1;
     const h = $2;
@@ -1789,7 +1789,7 @@ var ASM_CONSTS = {
       dynCall("viiiii", outcome, [ device, 0, 0, 0, 0 ]);
     });
   },
-  656923: () => {
+  656875: () => {
     const SDL3 = Module["SDL3"];
     if ((typeof (SDL3) === "undefined") || (typeof (SDL3.camera) === "undefined") || (typeof (SDL3.camera.stream) === "undefined")) {
       return;
@@ -1797,7 +1797,7 @@ var ASM_CONSTS = {
     SDL3.camera.stream.getTracks().forEach(track => track.stop());
     SDL3.camera = {};
   },
-  657174: ($0, $1, $2) => {
+  657126: ($0, $1, $2) => {
     const w = $0;
     const h = $1;
     const rgba = $2;
@@ -1810,12 +1810,12 @@ var ASM_CONSTS = {
     Module.HEAPU8.set(imgrgba, rgba);
     return 1;
   },
-  657559: () => {
+  657511: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       Module["SDL3"].camera = undefined;
     }
   },
-  657646: ($0, $1, $2, $3) => {
+  657598: ($0, $1, $2, $3) => {
     var w = $0;
     var h = $1;
     var pixels = $2;
@@ -1875,7 +1875,7 @@ var ASM_CONSTS = {
     }
     SDL3.ctx.putImageData(SDL3.image, 0, 0);
   },
-  658878: ($0, $1, $2, $3, $4) => {
+  658830: ($0, $1, $2, $3, $4) => {
     var w = $0;
     var h = $1;
     var hot_x = $2;
@@ -1896,17 +1896,17 @@ var ASM_CONSTS = {
     stringToUTF8(url, urlBuf, url.length + 1);
     return urlBuf;
   },
-  659537: $0 => {
+  659489: $0 => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = UTF8ToString($0);
     }
   },
-  659620: () => {
+  659572: () => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = "none";
     }
   },
-  659689: ($0, $1, $2) => {
+  659641: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -1966,7 +1966,7 @@ var ASM_CONSTS = {
       target.addEventListener("pointermove", SDL3.eventHandlerPointerGeneric);
     }
   },
-  661482: $0 => {
+  661434: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -1981,8 +1981,8 @@ var ASM_CONSTS = {
       SDL3.eventHandlerPointerGeneric = undefined;
     }
   },
-  662167: () => window.innerWidth,
-  662197: () => window.innerHeight
+  662119: () => window.innerWidth,
+  662149: () => window.innerHeight
 };
 
 // end include: preamble.js
