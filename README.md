@@ -12,8 +12,8 @@ You can acquire the WebGPU fork of SDL3 from my repo here:
 
 ## Building 
 
-**Emscripten 3.1.64 is required to make use of SDL3 WebGPU.**
-**There is currently an issue with Emscripten versions >=3.1.65 that breaks buffer copying**
+**Emscripten version 3.1.69+ is required to make use of SDL3 WebGPU.**
+**There is an issue with Emscripten versions (>=3.1.65 & < 3.1.69) that breaks buffer copying**
 
 To clone and build SDL from source:
 ```
