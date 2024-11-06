@@ -7,5 +7,6 @@ struct FragmentInput {
 
 @fragment
 fn main(input: FragmentInput) -> @location(0) vec4<f32> {
-    return textureSample(texture, texture_sampler, input.tex_coord);
+    let clamped_coord = clamp(input.tex_coord, vec2(0.0), vec2(1.0));
+    return textureSample(texture, texture_sampler, clamped_coord);
 }
