@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpruc8gg0g.js
+// include: /tmp/tmp7m1zoa1e.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -490,45 +490,49 @@ Module.expectedDataFileDownloads++;
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.frag.wgsl",
       "start": 1428974,
-      "end": 1429352
+      "end": 1429284
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.vert.wgsl",
-      "start": 1429352,
-      "end": 1429772
+      "start": 1429284,
+      "end": 1429704
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadArray.frag.wgsl",
-      "start": 1429772,
-      "end": 1430170
+      "start": 1429704,
+      "end": 1430102
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadColor.frag.wgsl",
-      "start": 1430170,
-      "end": 1430568
+      "start": 1430102,
+      "end": 1430500
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMatrix.vert.wgsl",
-      "start": 1430568,
-      "end": 1430568
+      "start": 1430500,
+      "end": 1430500
+    }, {
+      "filename": "/Content/Shaders/WGSL/TexturedQuadWithMultiplyColor.frag.wgsl",
+      "start": 1430500,
+      "end": 1430952
     } ],
-    "remote_package_size": 1430568
+    "remote_package_size": 1430952
   });
 })();
 
-// end include: /tmp/tmpruc8gg0g.js
-// include: /tmp/tmpcfg1dgpc.js
+// end include: /tmp/tmp7m1zoa1e.js
+// include: /tmp/tmpavs7_rjl.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpcfg1dgpc.js
-// include: /tmp/tmp6kg9vk_a.js
+// end include: /tmp/tmpavs7_rjl.js
+// include: /tmp/tmpz8n10gz3.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp6kg9vk_a.js
+// end include: /tmp/tmpz8n10gz3.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -1485,7 +1489,7 @@ function dbg(...args) {
 // end include: runtime_debug.js
 // === Body ===
 var ASM_CONSTS = {
-  646716: $0 => {
+  647052: $0 => {
     var str = UTF8ToString($0) + "\n\n" + "Abort/Retry/Ignore/AlwaysIgnore? [ariA] :";
     var reply = window.prompt(str, "i");
     if (reply === null) {
@@ -1493,7 +1497,7 @@ var ASM_CONSTS = {
     }
     return allocate(intArrayFromString(reply), "i8", ALLOC_NORMAL);
   },
-  646941: () => {
+  647277: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1502,7 +1506,7 @@ var ASM_CONSTS = {
     Module["SDL3"].dummy_audio.timers[0] = undefined;
     Module["SDL3"].dummy_audio.timers[1] = undefined;
   },
-  647187: ($0, $1, $2, $3, $4) => {
+  647523: ($0, $1, $2, $3, $4) => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
@@ -1511,14 +1515,14 @@ var ASM_CONSTS = {
       dynCall("vi", $3, [ $4 ]);
     }, ($1 / $2) * 1e3);
   },
-  647379: $0 => {
+  647715: $0 => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
     }
     a.timers[$0] = undefined;
   },
-  647510: $0 => {
+  647846: $0 => {
     var parms = new URLSearchParams(window.location.search);
     for (const [key, value] of parms) {
       if (key.startsWith("SDL_")) {
@@ -1532,7 +1536,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  647817: () => {
+  648153: () => {
     if (typeof (AudioContext) !== "undefined") {
       return true;
     } else if (typeof (webkitAudioContext) !== "undefined") {
@@ -1540,7 +1544,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  647964: () => {
+  648300: () => {
     if ((typeof (navigator.mediaDevices) !== "undefined") && (typeof (navigator.mediaDevices.getUserMedia) !== "undefined")) {
       return true;
     } else if (typeof (navigator.webkitGetUserMedia) !== "undefined") {
@@ -1548,7 +1552,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  648198: $0 => {
+  648534: $0 => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1572,8 +1576,8 @@ var ASM_CONSTS = {
     }
     return (SDL3.audioContext !== undefined);
   },
-  648761: () => Module["SDL3"].audioContext.sampleRate,
-  648812: ($0, $1, $2, $3) => {
+  649097: () => Module["SDL3"].audioContext.sampleRate,
+  649148: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     var have_microphone = function(stream) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1589,7 +1593,7 @@ var ASM_CONSTS = {
         }
         audioProcessingEvent.outputBuffer.getChannelData(0).fill(0);
         SDL3.audio_recording.currentRecordingBuffer = audioProcessingEvent.inputBuffer;
-        dynCall("vi", $2, [ $3 ]);
+        dynCall("ii", $2, [ $3 ]);
       };
       SDL3.audio_recording.mediaStreamNode.connect(SDL3.audio_recording.scriptProcessorNode);
       SDL3.audio_recording.scriptProcessorNode.connect(SDL3.audioContext.destination);
@@ -1600,7 +1604,7 @@ var ASM_CONSTS = {
     SDL3.audio_recording.silenceBuffer.getChannelData(0).fill(0);
     var silence_callback = function() {
       SDL3.audio_recording.currentRecordingBuffer = SDL3.audio_recording.silenceBuffer;
-      dynCall("vi", $2, [ $3 ]);
+      dynCall("ii", $2, [ $3 ]);
     };
     SDL3.audio_recording.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     if ((navigator.mediaDevices !== undefined) && (navigator.mediaDevices.getUserMedia !== undefined)) {
@@ -1615,7 +1619,7 @@ var ASM_CONSTS = {
       }, have_microphone, no_microphone);
     }
   },
-  650653: ($0, $1, $2, $3) => {
+  650989: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     SDL3.audio_playback.scriptProcessorNode = SDL3.audioContext["createScriptProcessor"]($1, 0, $0);
     SDL3.audio_playback.scriptProcessorNode["onaudioprocess"] = function(e) {
@@ -1628,7 +1632,7 @@ var ASM_CONSTS = {
         SDL3.audio_playback.silenceBuffer = undefined;
       }
       SDL3.audio_playback.currentPlaybackBuffer = e["outputBuffer"];
-      dynCall("vi", $2, [ $3 ]);
+      dynCall("ii", $2, [ $3 ]);
     };
     SDL3.audio_playback.scriptProcessorNode["connect"](SDL3.audioContext["destination"]);
     if (SDL3.audioContext.state === "suspended") {
@@ -1641,13 +1645,13 @@ var ASM_CONSTS = {
           }
         }
         SDL3.audio_playback.currentPlaybackBuffer = SDL3.audio_playback.silenceBuffer;
-        dynCall("vi", $2, [ $3 ]);
+        dynCall("ii", $2, [ $3 ]);
         SDL3.audio_playback.currentPlaybackBuffer = undefined;
       };
       SDL3.audio_playback.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     }
   },
-  651969: $0 => {
+  652305: $0 => {
     var SDL3 = Module["SDL3"];
     if ($0) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1681,7 +1685,8 @@ var ASM_CONSTS = {
       SDL3.audioContext = undefined;
     }
   },
-  653125: ($0, $1) => {
+  653461: ($0, $1) => {
+    var buf = $0 >>> 2;
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_playback.currentPlaybackBuffer["numberOfChannels"];
     for (var c = 0; c < numChannels; ++c) {
@@ -1690,11 +1695,11 @@ var ASM_CONSTS = {
         throw "Web Audio playback buffer length mismatch! Destination size: " + channelData.length + " samples vs expected " + $1 + " samples!";
       }
       for (var j = 0; j < $1; ++j) {
-        channelData[j] = SAFE_HEAP_LOAD_D(($0 + ((j * numChannels + c) << 2) >> 2) * 4, 4, 0);
+        channelData[j] = SAFE_HEAP_LOAD_D((buf + (j * numChannels + c)) * 4, 4, 0);
       }
     }
   },
-  653629: ($0, $1) => {
+  653974: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_recording.currentRecordingBuffer.numberOfChannels;
     for (var c = 0; c < numChannels; ++c) {
@@ -1713,14 +1718,14 @@ var ASM_CONSTS = {
       }
     }
   },
-  654256: () => {
+  654601: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
     Module["SDL3"].camera = {};
   },
-  654357: () => (navigator.mediaDevices === undefined) ? 0 : 1,
-  654416: ($0, $1, $2, $3, $4, $5, $6) => {
+  654702: () => (navigator.mediaDevices === undefined) ? 0 : 1,
+  654761: ($0, $1, $2, $3, $4, $5, $6) => {
     const device = $0;
     const w = $1;
     const h = $2;
@@ -1793,7 +1798,7 @@ var ASM_CONSTS = {
       dynCall("viiiii", outcome, [ device, 0, 0, 0, 0 ]);
     });
   },
-  656699: () => {
+  657044: () => {
     const SDL3 = Module["SDL3"];
     if ((typeof (SDL3) === "undefined") || (typeof (SDL3.camera) === "undefined") || (typeof (SDL3.camera.stream) === "undefined")) {
       return;
@@ -1801,7 +1806,7 @@ var ASM_CONSTS = {
     SDL3.camera.stream.getTracks().forEach(track => track.stop());
     SDL3.camera = {};
   },
-  656950: ($0, $1, $2) => {
+  657295: ($0, $1, $2) => {
     const w = $0;
     const h = $1;
     const rgba = $2;
@@ -1814,12 +1819,12 @@ var ASM_CONSTS = {
     Module.HEAPU8.set(imgrgba, rgba);
     return 1;
   },
-  657335: () => {
+  657680: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       Module["SDL3"].camera = undefined;
     }
   },
-  657422: ($0, $1, $2, $3) => {
+  657767: ($0, $1, $2, $3) => {
     var w = $0;
     var h = $1;
     var pixels = $2;
@@ -1838,7 +1843,7 @@ var ASM_CONSTS = {
       SDL3.imageCtx = SDL3.ctx;
     }
     var data = SDL3.image.data;
-    var src = pixels >> 2;
+    var src = pixels / 4;
     var dst = 0;
     var num;
     if (SDL3.data32Data !== data) {
@@ -1879,7 +1884,7 @@ var ASM_CONSTS = {
     }
     SDL3.ctx.putImageData(SDL3.image, 0, 0);
   },
-  658654: ($0, $1, $2, $3, $4) => {
+  658998: ($0, $1, $2, $3, $4) => {
     var w = $0;
     var h = $1;
     var hot_x = $2;
@@ -1891,7 +1896,7 @@ var ASM_CONSTS = {
     var ctx = canvas.getContext("2d");
     var image = ctx.createImageData(w, h);
     var data = image.data;
-    var src = pixels >> 2;
+    var src = pixels / 4;
     var data32 = new Int32Array(data.buffer);
     data32.set(HEAP32.subarray(src, src + data32.length));
     ctx.putImageData(image, 0, 0);
@@ -1900,17 +1905,17 @@ var ASM_CONSTS = {
     stringToUTF8(url, urlBuf, url.length + 1);
     return urlBuf;
   },
-  659313: $0 => {
+  659656: $0 => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = UTF8ToString($0);
     }
   },
-  659396: () => {
+  659739: () => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = "none";
     }
   },
-  659465: ($0, $1, $2) => {
+  659808: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -1970,7 +1975,7 @@ var ASM_CONSTS = {
       target.addEventListener("pointermove", SDL3.eventHandlerPointerGeneric);
     }
   },
-  661258: $0 => {
+  661601: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -1985,8 +1990,8 @@ var ASM_CONSTS = {
       SDL3.eventHandlerPointerGeneric = undefined;
     }
   },
-  661943: () => window.innerWidth,
-  661973: () => window.innerHeight
+  662286: () => window.innerWidth,
+  662316: () => window.innerHeight
 };
 
 // end include: preamble.js
@@ -5190,6 +5195,17 @@ function ___syscall_fcntl64(fd, cmd, varargs) {
     // Pretend that the locking is successful.
     return -28;
   } catch (e) {
+    if (typeof FS == "undefined" || !(e.name === "ErrnoError")) throw e;
+    return -e.errno;
+  }
+}
+
+function ___syscall_fdatasync(fd) {
+  try {
+    var stream = SYSCALLS.getStreamFromFD(fd);
+    return 0;
+  } // we can't do anything synchronously; the in-memory FS is already synced to
+  catch (e) {
     if (typeof FS == "undefined" || !(e.name === "ErrnoError")) throw e;
     return -e.errno;
   }
@@ -11285,6 +11301,7 @@ var wasmImports = {
   /** @export */ __handle_stack_overflow: ___handle_stack_overflow,
   /** @export */ __resumeException: ___resumeException,
   /** @export */ __syscall_fcntl64: ___syscall_fcntl64,
+  /** @export */ __syscall_fdatasync: ___syscall_fdatasync,
   /** @export */ __syscall_fstat64: ___syscall_fstat64,
   /** @export */ __syscall_ioctl: ___syscall_ioctl,
   /** @export */ __syscall_lstat64: ___syscall_lstat64,

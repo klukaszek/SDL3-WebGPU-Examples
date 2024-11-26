@@ -4,7 +4,7 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "/usr/local/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "/usr/local/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
       - "CMakeLists.txt:2 (project)"
     message: |
       The target system is: Emscripten - 1 - x86
