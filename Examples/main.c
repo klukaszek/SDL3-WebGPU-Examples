@@ -4,6 +4,7 @@
 #include <SDL3/SDL_keyboard.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_stdinc.h>
 #include <SDL_gpu_shadercross.h>
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
@@ -38,30 +39,20 @@ static Example *Examples[] = {
     &GenerateMipmaps_Example,
 };
 
-static bool emsc_dummy_key_callback(int type,
-                                       const EmscriptenKeyboardEvent *ev,
-                                       void *userdata) {
-  if (ev->ctrlKey || ev->altKey || ev->metaKey) {
-    SDL_Log("Key down: %s (ctrl/alt/meta)", ev->key);
-  }
-  return true;
-}
-
 static bool emsc_dummy_mousebutton_callback(int type,
-                                               const EmscriptenMouseEvent *ev,
-                                               void *userdata) {
+                                            const EmscriptenMouseEvent *ev,
+                                            void *userdata) {
   return true;
 }
 
 static bool emsc_dummy_mousewheel_callback(int type,
-                                              const EmscriptenWheelEvent *ev,
-                                              void *userdata) {
+                                           const EmscriptenWheelEvent *ev,
+                                           void *userdata) {
   return true;
 }
 
-static bool emsc_dummy_touch_callback(int type,
-                                         const EmscriptenTouchEvent *ev,
-                                         void *userdata) {
+static bool emsc_dummy_touch_callback(int type, const EmscriptenTouchEvent *ev,
+                                      void *userdata) {
   return true;
 }
 
@@ -131,6 +122,8 @@ void process_events(Context *context) {
   context->RightPressed = 0;
   context->DownPressed = 0;
   context->UpPressed = 0;
+  char key_str[256];
+  memset(key_str, 0, sizeof(key_str));
 
   // Poll for events on frame update.
   SDL_Event evt;
@@ -162,7 +155,24 @@ void process_events(Context *context) {
       }
       break;
     case SDL_EVENT_KEY_DOWN:
-      SDL_Log("Key down: %s", SDL_GetKeyName(evt.key.key));
+      if (evt.key.key == SDLK_LCTRL)
+        return;
+      if (evt.key.key == SDLK_LSHIFT)
+        return;
+
+      if (evt.key.mod & SDL_KMOD_LCTRL) {
+        SDL_strlcat(key_str, "CTRL + ", sizeof(key_str));
+      }
+      if (evt.key.mod & SDL_KMOD_LSHIFT) {
+        SDL_strlcat(key_str, "SHIFT + ", sizeof(key_str));
+      }
+      if (evt.key.mod & SDL_KMOD_LALT && evt.key.key != SDLK_LALT) {
+        SDL_strlcat(key_str, "ALT + ", sizeof(key_str));
+      }
+
+      SDL_strlcat(key_str, SDL_GetKeyName(evt.key.key), sizeof(key_str));
+      SDL_Log("Key Down: %s", key_str);
+      memset(key_str, 0, sizeof(key_str));
       if (evt.key.key == (unsigned int)'d') {
         gotoExampleIndex = exampleIndex + 1;
         if (gotoExampleIndex >= SDL_arraysize(Examples)) {
@@ -189,6 +199,10 @@ void process_events(Context *context) {
       } else if (evt.key.key == SDLK_UP) {
         context->UpPressed = true;
         SDL_Log("Up pressed");
+      } else if (evt.key.mod & SDL_KMOD_LCTRL &&
+                 evt.key.mod & SDL_KMOD_LSHIFT && evt.key.key == SDLK_R) {
+        SDL_Log("Reloading page...");
+        emscripten_run_script("location.reload(true);");
       }
       break;
     case SDL_EVENT_MOUSE_MOTION:
@@ -363,10 +377,6 @@ int main(int argc, char **argv) {
   if (!load_example(&ctx)) {
     return 1;
   }
-
-  // Set keyboard callbacks for emscripten
-  emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, &ctx, true,
-                                  &emsc_dummy_key_callback);
 
   // Set touch callbacks for emscripten
   emscripten_set_touchstart_callback("#canvas", &ctx, true,

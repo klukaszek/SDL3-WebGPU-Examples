@@ -40,14 +40,6 @@
         document.getElementById('canvas').addEventListener('click', function () {
             this.focus();
         });
-        document.getElementById('canvas').addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-        document.getElementById('canvas').addEventListener('keydown', function (e) {
-            if (event.ctrKey || event.altKey || event.metaKey) {
-                return;
-            }
-        });
         var Module = {
             preRun: [],
             postRun: [],
