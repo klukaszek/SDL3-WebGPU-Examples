@@ -8,5 +8,5 @@ events:
       - "CMakeLists.txt:2 (project)"
     message: |
       The target system is: Emscripten - 1 - x86
-      The host system is: Linux - 6.5.0-1025-azure - x86_64
+      The host system is: Linux - 6.8.0-1017-azure - x86_64
 ...
