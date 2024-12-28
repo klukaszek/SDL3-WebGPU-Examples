@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpjtugtuzn.js
+// include: /tmp/tmpo2u4jo_c.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -506,33 +506,33 @@ Module.expectedDataFileDownloads++;
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMatrix.vert.wgsl",
       "start": 1430500,
-      "end": 1431073
+      "end": 1431034
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMultiplyColor.frag.wgsl",
-      "start": 1431073,
-      "end": 1431527
+      "start": 1431034,
+      "end": 1431533
     } ],
-    "remote_package_size": 1431527
+    "remote_package_size": 1431533
   });
 })();
 
-// end include: /tmp/tmpjtugtuzn.js
-// include: /tmp/tmpx61g_h41.js
+// end include: /tmp/tmpo2u4jo_c.js
+// include: /tmp/tmp6vj44_a5.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpx61g_h41.js
-// include: /tmp/tmp8dossip8.js
+// end include: /tmp/tmp6vj44_a5.js
+// include: /tmp/tmpdt174f8v.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp8dossip8.js
+// end include: /tmp/tmpdt174f8v.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -1489,7 +1489,7 @@ function dbg(...args) {
 // end include: runtime_debug.js
 // === Body ===
 var ASM_CONSTS = {
-  634636: $0 => {
+  634796: $0 => {
     var str = UTF8ToString($0) + "\n\n" + "Abort/Retry/Ignore/AlwaysIgnore? [ariA] :";
     var reply = window.prompt(str, "i");
     if (reply === null) {
@@ -1497,7 +1497,7 @@ var ASM_CONSTS = {
     }
     return allocate(intArrayFromString(reply), "i8", ALLOC_NORMAL);
   },
-  634861: () => {
+  635021: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1506,7 +1506,7 @@ var ASM_CONSTS = {
     Module["SDL3"].dummy_audio.timers[0] = undefined;
     Module["SDL3"].dummy_audio.timers[1] = undefined;
   },
-  635107: ($0, $1, $2, $3, $4) => {
+  635267: ($0, $1, $2, $3, $4) => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
@@ -1515,14 +1515,14 @@ var ASM_CONSTS = {
       dynCall("vi", $3, [ $4 ]);
     }, ($1 / $2) * 1e3);
   },
-  635299: $0 => {
+  635459: $0 => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
     }
     a.timers[$0] = undefined;
   },
-  635430: $0 => {
+  635590: $0 => {
     var parms = new URLSearchParams(window.location.search);
     for (const [key, value] of parms) {
       if (key.startsWith("SDL_")) {
@@ -1536,7 +1536,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  635737: () => {
+  635897: () => {
     if (typeof (AudioContext) !== "undefined") {
       return true;
     } else if (typeof (webkitAudioContext) !== "undefined") {
@@ -1544,7 +1544,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  635884: () => {
+  636044: () => {
     if ((typeof (navigator.mediaDevices) !== "undefined") && (typeof (navigator.mediaDevices.getUserMedia) !== "undefined")) {
       return true;
     } else if (typeof (navigator.webkitGetUserMedia) !== "undefined") {
@@ -1552,7 +1552,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  636118: $0 => {
+  636278: $0 => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1576,8 +1576,8 @@ var ASM_CONSTS = {
     }
     return (SDL3.audioContext !== undefined);
   },
-  636681: () => Module["SDL3"].audioContext.sampleRate,
-  636732: ($0, $1, $2, $3) => {
+  636841: () => Module["SDL3"].audioContext.sampleRate,
+  636892: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     var have_microphone = function(stream) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1619,7 +1619,7 @@ var ASM_CONSTS = {
       }, have_microphone, no_microphone);
     }
   },
-  638573: ($0, $1, $2, $3) => {
+  638733: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     SDL3.audio_playback.scriptProcessorNode = SDL3.audioContext["createScriptProcessor"]($1, 0, $0);
     SDL3.audio_playback.scriptProcessorNode["onaudioprocess"] = function(e) {
@@ -1651,7 +1651,7 @@ var ASM_CONSTS = {
       SDL3.audio_playback.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     }
   },
-  639889: $0 => {
+  640049: $0 => {
     var SDL3 = Module["SDL3"];
     if ($0) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1685,7 +1685,7 @@ var ASM_CONSTS = {
       SDL3.audioContext = undefined;
     }
   },
-  641045: ($0, $1) => {
+  641205: ($0, $1) => {
     var buf = $0 >>> 2;
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_playback.currentPlaybackBuffer["numberOfChannels"];
@@ -1699,7 +1699,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  641558: ($0, $1) => {
+  641718: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_recording.currentRecordingBuffer.numberOfChannels;
     for (var c = 0; c < numChannels; ++c) {
@@ -1718,14 +1718,14 @@ var ASM_CONSTS = {
       }
     }
   },
-  642185: () => {
+  642345: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
     Module["SDL3"].camera = {};
   },
-  642286: () => (navigator.mediaDevices === undefined) ? 0 : 1,
-  642345: ($0, $1, $2, $3, $4, $5, $6) => {
+  642446: () => (navigator.mediaDevices === undefined) ? 0 : 1,
+  642505: ($0, $1, $2, $3, $4, $5, $6) => {
     const device = $0;
     const w = $1;
     const h = $2;
@@ -1798,7 +1798,7 @@ var ASM_CONSTS = {
       dynCall("viiiii", outcome, [ device, 0, 0, 0, 0 ]);
     });
   },
-  644628: () => {
+  644788: () => {
     const SDL3 = Module["SDL3"];
     if ((typeof (SDL3) === "undefined") || (typeof (SDL3.camera) === "undefined") || (typeof (SDL3.camera.stream) === "undefined")) {
       return;
@@ -1806,7 +1806,7 @@ var ASM_CONSTS = {
     SDL3.camera.stream.getTracks().forEach(track => track.stop());
     SDL3.camera = {};
   },
-  644879: ($0, $1, $2) => {
+  645039: ($0, $1, $2) => {
     const w = $0;
     const h = $1;
     const rgba = $2;
@@ -1819,12 +1819,12 @@ var ASM_CONSTS = {
     Module.HEAPU8.set(imgrgba, rgba);
     return 1;
   },
-  645264: () => {
+  645424: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       Module["SDL3"].camera = undefined;
     }
   },
-  645351: ($0, $1, $2, $3) => {
+  645511: ($0, $1, $2, $3) => {
     var w = $0;
     var h = $1;
     var pixels = $2;
@@ -1884,7 +1884,7 @@ var ASM_CONSTS = {
     }
     SDL3.ctx.putImageData(SDL3.image, 0, 0);
   },
-  646582: ($0, $1, $2, $3, $4) => {
+  646742: ($0, $1, $2, $3, $4) => {
     var w = $0;
     var h = $1;
     var hot_x = $2;
@@ -1905,17 +1905,17 @@ var ASM_CONSTS = {
     stringToUTF8(url, urlBuf, url.length + 1);
     return urlBuf;
   },
-  647240: $0 => {
+  647400: $0 => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = UTF8ToString($0);
     }
   },
-  647323: () => {
+  647483: () => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = "none";
     }
   },
-  647392: ($0, $1, $2) => {
+  647552: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -1975,7 +1975,7 @@ var ASM_CONSTS = {
       target.addEventListener("pointermove", SDL3.eventHandlerPointerGeneric);
     }
   },
-  649185: ($0, $1, $2) => {
+  649345: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -2043,7 +2043,7 @@ var ASM_CONSTS = {
       target.addEventListener("dragleave", SDL3.eventHandlerDropDragend);
     }
   },
-  651338: $0 => {
+  651498: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -2071,7 +2071,7 @@ var ASM_CONSTS = {
       SDL3.eventHandlerDropDragend = undefined;
     }
   },
-  652168: $0 => {
+  652328: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -2086,7 +2086,7 @@ var ASM_CONSTS = {
       SDL3.eventHandlerPointerGeneric = undefined;
     }
   },
-  652853: () => {
+  653013: () => {
     if (!window.matchMedia) {
       return -1;
     }
@@ -2098,7 +2098,7 @@ var ASM_CONSTS = {
     }
     return -1;
   },
-  653062: () => {
+  653222: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       var SDL3 = Module["SDL3"];
       SDL3.themeChangedMatchMedia.removeEventListener("change", SDL3.eventHandlerThemeChanged);
@@ -2106,9 +2106,9 @@ var ASM_CONSTS = {
       SDL3.eventHandlerThemeChanged = undefined;
     }
   },
-  653315: () => window.innerWidth,
-  653345: () => window.innerHeight,
-  653376: () => {
+  653475: () => window.innerWidth,
+  653505: () => window.innerHeight,
+  653536: () => {
     if (window.matchMedia) {
       if (typeof (Module["SDL3"]) === "undefined") {
         Module["SDL3"] = {};
@@ -10160,6 +10160,18 @@ var _wgpuBufferGetConstMappedRange = (bufferId, offset, size) => {
   return data;
 };
 
+var _setTempRet0 = setTempRet0;
+
+var _wgpuBufferGetSize = function(bufferId) {
+  var ret = (() => {
+    var buffer = WebGPU.mgrBuffer.get(bufferId);
+    // 64-bit
+    return buffer.size;
+  })();
+  return (setTempRet0((tempDouble = ret, (+(Math.abs(tempDouble))) >= 1 ? (tempDouble > 0 ? (+(Math.floor((tempDouble) / 4294967296))) >>> 0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble))) >>> 0)) / 4294967296))))) >>> 0) : 0)), 
+  ret >>> 0);
+};
+
 var _wgpuBufferMapAsync = (bufferId, mode, offset, size, callback, userdata) => {
   var bufferWrapper = WebGPU.mgrBuffer.objects[bufferId];
   assert(typeof bufferWrapper != "undefined");
@@ -10997,6 +11009,8 @@ var _wgpuTextureCreateView = (textureId, descriptor) => {
   return WebGPU.mgrTextureView.create(texture.createView(desc));
 };
 
+var _wgpuTextureDestroy = textureId => WebGPU.mgrTexture.get(textureId).destroy();
+
 var _wgpuTextureRelease = id => WebGPU.mgrTexture.release(id);
 
 var _wgpuTextureSetLabel = (textureId, labelPtr) => {
@@ -11716,6 +11730,7 @@ var wasmImports = {
   /** @export */ wgpuAdapterRelease: _wgpuAdapterRelease,
   /** @export */ wgpuAdapterRequestDevice: _wgpuAdapterRequestDevice,
   /** @export */ wgpuBufferGetConstMappedRange: _wgpuBufferGetConstMappedRange,
+  /** @export */ wgpuBufferGetSize: _wgpuBufferGetSize,
   /** @export */ wgpuBufferMapAsync: _wgpuBufferMapAsync,
   /** @export */ wgpuBufferRelease: _wgpuBufferRelease,
   /** @export */ wgpuBufferSetLabel: _wgpuBufferSetLabel,
@@ -11765,6 +11780,7 @@ var wasmImports = {
   /** @export */ wgpuSwapChainGetCurrentTextureView: _wgpuSwapChainGetCurrentTextureView,
   /** @export */ wgpuSwapChainRelease: _wgpuSwapChainRelease,
   /** @export */ wgpuTextureCreateView: _wgpuTextureCreateView,
+  /** @export */ wgpuTextureDestroy: _wgpuTextureDestroy,
   /** @export */ wgpuTextureRelease: _wgpuTextureRelease,
   /** @export */ wgpuTextureSetLabel: _wgpuTextureSetLabel,
   /** @export */ wgpuTextureViewRelease: _wgpuTextureViewRelease,
