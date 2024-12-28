@@ -227,6 +227,8 @@ static int Init(Context* context)
 		false
 	);
 
+    SDL_SetGPUTextureName(context->Device, Texture, "TexturedAnimatedQuad_Texture");
+
 	SDL_DestroySurface(imageData);
 	SDL_EndGPUCopyPass(copyPass);
 	SDL_SubmitGPUCommandBuffer(uploadCmdBuf);

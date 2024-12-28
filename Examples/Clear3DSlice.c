@@ -4,13 +4,16 @@ static SDL_GPUTexture *Texture3D;
 
 static int Init(Context* context)
 {
-    int result = CommonInit(context, SDL_WINDOW_RESIZABLE);
-    if (result < 0)
-    {
-        return result;
-    }
+    /*int result = CommonInit(context, SDL_WINDOW_RESIZABLE);*/
+    /*if (result < 0)*/
+    /*{*/
+    /*    return result;*/
+    /*}*/
 
     SDL_GPUTextureFormat swapchainFormat = SDL_GetGPUSwapchainTextureFormat(context->Device, context->Window);
+
+    SDL_Log("Swapchain format: %u", swapchainFormat);
+    SDL_Log("Usage: %d", SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER);
 
     Texture3D = SDL_CreateGPUTexture(
         context->Device,
@@ -24,6 +27,8 @@ static int Init(Context* context)
             .usage = SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER
         }
     );
+
+    SDL_SetGPUTextureName(context->Device, Texture3D, "Clear3DSlice_Texture3D");
 
     return 0;
 }
