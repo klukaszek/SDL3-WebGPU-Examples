@@ -12,9 +12,6 @@ static int Init(Context* context)
 
     SDL_GPUTextureFormat swapchainFormat = SDL_GetGPUSwapchainTextureFormat(context->Device, context->Window);
 
-    SDL_Log("Swapchain format: %u", swapchainFormat);
-    SDL_Log("Usage: %d", SDL_GPU_TEXTUREUSAGE_COLOR_TARGET | SDL_GPU_TEXTUREUSAGE_SAMPLER);
-
     Texture3D = SDL_CreateGPUTexture(
         context->Device,
         &(SDL_GPUTextureCreateInfo){
