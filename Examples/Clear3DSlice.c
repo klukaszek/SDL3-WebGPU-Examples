@@ -3,11 +3,11 @@
 static SDL_GPUTexture *Texture3D;
 
 static int Init(Context *context) {
-  /*int result = CommonInit(context, SDL_WINDOW_RESIZABLE);*/
-  /*if (result < 0)*/
-  /*{*/
-  /*    return result;*/
-  /*}*/
+  int result = CommonInit(context, SDL_WINDOW_RESIZABLE);
+  if (result < 0)
+  {
+      return result;
+  }
 
   SDL_GPUTextureFormat swapchainFormat =
       SDL_GetGPUSwapchainTextureFormat(context->Device, context->Window);

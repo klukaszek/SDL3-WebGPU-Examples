@@ -21,6 +21,9 @@ static Example *Examples[] = {
     &TexturedQuad_Example,
     &TexturedAnimatedQuad_Example,
     &Clear3DSlice_Example,
+    &Blit2DArray_Example,
+    &BlitCube_Example,
+    &BlitMirror_Example,
     &BasicCompute_Example,
     &ComputeUniforms_Example,
     &ToneMapping_Example,
@@ -33,9 +36,6 @@ static Example *Examples[] = {
     &TriangleMSAA_Example,
     &Cubemap_Example,
     &WindowResize_Example,
-    &Blit2DArray_Example,
-    &BlitCube_Example,
-    &BlitMirror_Example,
     &GenerateMipmaps_Example,
 };
 
@@ -343,28 +343,6 @@ int main(int argc, char **argv) {
   if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
     SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
     return 1;
-  }
-
-  // Create a GPU device for the example suite
-  ctx.Device =
-      SDL_CreateGPUDevice(SDL_ShaderCross_GetSPIRVShaderFormats(), true, NULL);
-  if (ctx.Device == NULL) {
-    SDL_Log("GPUCreateDevice failed");
-    return -1;
-  }
-
-  // Create a window for the example suite
-  ctx.Window =
-      SDL_CreateWindow(ctx.ExampleName, 640, 480, SDL_WINDOW_RESIZABLE);
-  if (ctx.Window == NULL) {
-    SDL_Log("CreateWindow failed: %s", SDL_GetError());
-    return -1;
-  }
-
-  // Claim the window for the GPU device
-  if (!SDL_ClaimWindowForGPUDevice(ctx.Device, ctx.Window)) {
-    SDL_Log("GPUClaimWindow failed");
-    return -1;
   }
 
   InitializeAssetLoader();

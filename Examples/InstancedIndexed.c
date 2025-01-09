@@ -10,11 +10,11 @@ static bool UseIndexBuffer = true;
 
 static int Init(Context* context)
 {
-	/*int result = CommonInit(context, 0);*/
-	/*if (result < 0)*/
-	/*{*/
-	/*	return result;*/
-	/*}*/
+	int result = CommonInit(context, 0);
+	if (result < 0)
+	{
+		return result;
+	}
 
 	// Create the shaders
 	SDL_GPUShader* vertexShader = LoadShader(context->Device, "PositionColorInstanced.vert", 0, 0, 0, 0);

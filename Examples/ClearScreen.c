@@ -2,8 +2,8 @@
 
 static int Init(Context* context)
 {
-    return 0;
-	/*return CommonInit(context, SDL_WINDOW_RESIZABLE);*/
+    /*return 0;*/
+	return CommonInit(context, SDL_WINDOW_RESIZABLE);
 }
 
 static int Update(Context* context)
