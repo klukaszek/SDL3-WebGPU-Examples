@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpg4wguumm.js
+// include: /tmp/tmpsz0nx983.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -494,45 +494,45 @@ Module.expectedDataFileDownloads++;
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.vert.wgsl",
       "start": 1429284,
-      "end": 1429704
+      "end": 1429703
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadArray.frag.wgsl",
-      "start": 1429704,
-      "end": 1430102
+      "start": 1429703,
+      "end": 1430093
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadColor.frag.wgsl",
-      "start": 1430102,
-      "end": 1430500
+      "start": 1430093,
+      "end": 1430491
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMatrix.vert.wgsl",
-      "start": 1430500,
-      "end": 1431034
+      "start": 1430491,
+      "end": 1431025
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMultiplyColor.frag.wgsl",
-      "start": 1431034,
-      "end": 1431533
+      "start": 1431025,
+      "end": 1431524
     } ],
-    "remote_package_size": 1431533
+    "remote_package_size": 1431524
   });
 })();
 
-// end include: /tmp/tmpg4wguumm.js
-// include: /tmp/tmpoekbip8a.js
+// end include: /tmp/tmpsz0nx983.js
+// include: /tmp/tmp_8rir9hx.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpoekbip8a.js
-// include: /tmp/tmp4uyxf4mm.js
+// end include: /tmp/tmp_8rir9hx.js
+// include: /tmp/tmp6zl13n8o.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp4uyxf4mm.js
+// end include: /tmp/tmp6zl13n8o.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -1489,7 +1489,7 @@ function dbg(...args) {
 // end include: runtime_debug.js
 // === Body ===
 var ASM_CONSTS = {
-  636124: $0 => {
+  639036: $0 => {
     var str = UTF8ToString($0) + "\n\n" + "Abort/Retry/Ignore/AlwaysIgnore? [ariA] :";
     var reply = window.prompt(str, "i");
     if (reply === null) {
@@ -1497,7 +1497,7 @@ var ASM_CONSTS = {
     }
     return allocate(intArrayFromString(reply), "i8", ALLOC_NORMAL);
   },
-  636349: () => {
+  639261: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1506,7 +1506,7 @@ var ASM_CONSTS = {
     Module["SDL3"].dummy_audio.timers[0] = undefined;
     Module["SDL3"].dummy_audio.timers[1] = undefined;
   },
-  636595: ($0, $1, $2, $3, $4) => {
+  639507: ($0, $1, $2, $3, $4) => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
@@ -1515,14 +1515,14 @@ var ASM_CONSTS = {
       dynCall("vi", $3, [ $4 ]);
     }, ($1 / $2) * 1e3);
   },
-  636787: $0 => {
+  639699: $0 => {
     var a = Module["SDL3"].dummy_audio;
     if (a.timers[$0] !== undefined) {
       clearInterval(a.timers[$0]);
     }
     a.timers[$0] = undefined;
   },
-  636918: $0 => {
+  639830: $0 => {
     var parms = new URLSearchParams(window.location.search);
     for (const [key, value] of parms) {
       if (key.startsWith("SDL_")) {
@@ -1536,7 +1536,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  637225: () => {
+  640137: () => {
     if (typeof (AudioContext) !== "undefined") {
       return true;
     } else if (typeof (webkitAudioContext) !== "undefined") {
@@ -1544,7 +1544,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  637372: () => {
+  640284: () => {
     if ((typeof (navigator.mediaDevices) !== "undefined") && (typeof (navigator.mediaDevices.getUserMedia) !== "undefined")) {
       return true;
     } else if (typeof (navigator.webkitGetUserMedia) !== "undefined") {
@@ -1552,7 +1552,7 @@ var ASM_CONSTS = {
     }
     return false;
   },
-  637606: $0 => {
+  640518: $0 => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
@@ -1576,8 +1576,8 @@ var ASM_CONSTS = {
     }
     return (SDL3.audioContext !== undefined);
   },
-  638169: () => Module["SDL3"].audioContext.sampleRate,
-  638220: ($0, $1, $2, $3) => {
+  641081: () => Module["SDL3"].audioContext.sampleRate,
+  641132: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     var have_microphone = function(stream) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1619,7 +1619,7 @@ var ASM_CONSTS = {
       }, have_microphone, no_microphone);
     }
   },
-  640061: ($0, $1, $2, $3) => {
+  642973: ($0, $1, $2, $3) => {
     var SDL3 = Module["SDL3"];
     SDL3.audio_playback.scriptProcessorNode = SDL3.audioContext["createScriptProcessor"]($1, 0, $0);
     SDL3.audio_playback.scriptProcessorNode["onaudioprocess"] = function(e) {
@@ -1651,7 +1651,7 @@ var ASM_CONSTS = {
       SDL3.audio_playback.silenceTimer = setInterval(silence_callback, ($1 / SDL3.audioContext.sampleRate) * 1e3);
     }
   },
-  641377: $0 => {
+  644289: $0 => {
     var SDL3 = Module["SDL3"];
     if ($0) {
       if (SDL3.audio_recording.silenceTimer !== undefined) {
@@ -1685,7 +1685,7 @@ var ASM_CONSTS = {
       SDL3.audioContext = undefined;
     }
   },
-  642533: ($0, $1) => {
+  645445: ($0, $1) => {
     var buf = $0 >>> 2;
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_playback.currentPlaybackBuffer["numberOfChannels"];
@@ -1699,7 +1699,7 @@ var ASM_CONSTS = {
       }
     }
   },
-  643046: ($0, $1) => {
+  645958: ($0, $1) => {
     var SDL3 = Module["SDL3"];
     var numChannels = SDL3.audio_recording.currentRecordingBuffer.numberOfChannels;
     for (var c = 0; c < numChannels; ++c) {
@@ -1718,14 +1718,14 @@ var ASM_CONSTS = {
       }
     }
   },
-  643673: () => {
+  646585: () => {
     if (typeof (Module["SDL3"]) === "undefined") {
       Module["SDL3"] = {};
     }
     Module["SDL3"].camera = {};
   },
-  643774: () => (navigator.mediaDevices === undefined) ? 0 : 1,
-  643833: ($0, $1, $2, $3, $4, $5, $6) => {
+  646686: () => (navigator.mediaDevices === undefined) ? 0 : 1,
+  646745: ($0, $1, $2, $3, $4, $5, $6) => {
     const device = $0;
     const w = $1;
     const h = $2;
@@ -1798,7 +1798,7 @@ var ASM_CONSTS = {
       dynCall("viiiii", outcome, [ device, 0, 0, 0, 0 ]);
     });
   },
-  646116: () => {
+  649028: () => {
     const SDL3 = Module["SDL3"];
     if ((typeof (SDL3) === "undefined") || (typeof (SDL3.camera) === "undefined") || (typeof (SDL3.camera.stream) === "undefined")) {
       return;
@@ -1806,7 +1806,7 @@ var ASM_CONSTS = {
     SDL3.camera.stream.getTracks().forEach(track => track.stop());
     SDL3.camera = {};
   },
-  646367: ($0, $1, $2) => {
+  649279: ($0, $1, $2) => {
     const w = $0;
     const h = $1;
     const rgba = $2;
@@ -1819,12 +1819,12 @@ var ASM_CONSTS = {
     Module.HEAPU8.set(imgrgba, rgba);
     return 1;
   },
-  646752: () => {
+  649664: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       Module["SDL3"].camera = undefined;
     }
   },
-  646839: ($0, $1, $2, $3) => {
+  649751: ($0, $1, $2, $3) => {
     var w = $0;
     var h = $1;
     var pixels = $2;
@@ -1884,7 +1884,7 @@ var ASM_CONSTS = {
     }
     SDL3.ctx.putImageData(SDL3.image, 0, 0);
   },
-  648070: ($0, $1, $2, $3, $4) => {
+  650982: ($0, $1, $2, $3, $4) => {
     var w = $0;
     var h = $1;
     var hot_x = $2;
@@ -1905,17 +1905,17 @@ var ASM_CONSTS = {
     stringToUTF8(url, urlBuf, url.length + 1);
     return urlBuf;
   },
-  648728: $0 => {
+  651640: $0 => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = UTF8ToString($0);
     }
   },
-  648811: () => {
+  651723: () => {
     if (Module["canvas"]) {
       Module["canvas"].style["cursor"] = "none";
     }
   },
-  648880: ($0, $1, $2) => {
+  651792: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -1975,7 +1975,7 @@ var ASM_CONSTS = {
       target.addEventListener("pointermove", SDL3.eventHandlerPointerGeneric);
     }
   },
-  650673: ($0, $1, $2) => {
+  653585: ($0, $1, $2) => {
     var target = document.querySelector(UTF8ToString($1));
     if (target) {
       var data = $0;
@@ -2043,7 +2043,7 @@ var ASM_CONSTS = {
       target.addEventListener("dragleave", SDL3.eventHandlerDropDragend);
     }
   },
-  652826: $0 => {
+  655738: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -2071,7 +2071,7 @@ var ASM_CONSTS = {
       SDL3.eventHandlerDropDragend = undefined;
     }
   },
-  653656: $0 => {
+  656568: $0 => {
     var target = document.querySelector(UTF8ToString($0));
     if (target) {
       var SDL3 = Module["SDL3"];
@@ -2086,7 +2086,7 @@ var ASM_CONSTS = {
       SDL3.eventHandlerPointerGeneric = undefined;
     }
   },
-  654341: () => {
+  657253: () => {
     if (!window.matchMedia) {
       return -1;
     }
@@ -2098,7 +2098,7 @@ var ASM_CONSTS = {
     }
     return -1;
   },
-  654550: () => {
+  657462: () => {
     if (typeof (Module["SDL3"]) !== "undefined") {
       var SDL3 = Module["SDL3"];
       SDL3.themeChangedMatchMedia.removeEventListener("change", SDL3.eventHandlerThemeChanged);
@@ -2106,9 +2106,9 @@ var ASM_CONSTS = {
       SDL3.eventHandlerThemeChanged = undefined;
     }
   },
-  654803: () => window.innerWidth,
-  654833: () => window.innerHeight,
-  654864: () => {
+  657715: () => window.innerWidth,
+  657745: () => window.innerHeight,
+  657776: () => {
     if (window.matchMedia) {
       if (typeof (Module["SDL3"]) === "undefined") {
         Module["SDL3"] = {};
@@ -10141,8 +10141,6 @@ var _wgpuAdapterRequestDevice = (adapterId, descriptor, callback, userdata) => {
   });
 };
 
-var _wgpuBindGroupRelease = id => WebGPU.mgrBindGroup.release(id);
-
 var _wgpuBufferGetConstMappedRange = (bufferId, offset, size) => {
   var bufferWrapper = WebGPU.mgrBuffer.objects[bufferId];
   assert(typeof bufferWrapper != "undefined");
@@ -10780,6 +10778,8 @@ var _wgpuDeviceCreateTexture = (deviceId, descriptor) => {
   return WebGPU.mgrTexture.create(device.createTexture(desc));
 };
 
+var _wgpuDeviceDestroy = deviceId => WebGPU.mgrDevice.get(deviceId).destroy();
+
 var _wgpuDeviceGetQueue = deviceId => {
   var queueId = WebGPU.mgrDevice.objects[deviceId].queueId;
   assert(queueId, "wgpuDeviceGetQueue: queue was missing or null");
@@ -10787,8 +10787,6 @@ var _wgpuDeviceGetQueue = deviceId => {
   WebGPU.mgrQueue.reference(queueId);
   return queueId;
 };
-
-var _wgpuDeviceRelease = id => WebGPU.mgrDevice.release(id);
 
 var _wgpuDeviceSetUncapturedErrorCallback = (deviceId, callback, userdata) => {
   var device = WebGPU.mgrDevice.get(deviceId);
@@ -10963,16 +10961,21 @@ var _wgpuRenderPassEncoderSetViewport = (passId, x, y, w, h, minDepth, maxDepth)
   pass.setViewport(x, y, w, h, minDepth, maxDepth);
 };
 
-var _wgpuRenderPipelineGetBindGroupLayout = (pipelineId, groupIndex) => {
-  var pipeline = WebGPU.mgrRenderPipeline.get(pipelineId);
-  return WebGPU.mgrBindGroupLayout.create(pipeline.getBindGroupLayout(groupIndex));
-};
-
 var _wgpuRenderPipelineRelease = id => WebGPU.mgrRenderPipeline.release(id);
 
 var _wgpuSamplerRelease = id => WebGPU.mgrSampler.release(id);
 
+var _wgpuSamplerSetLabel = (samplerId, labelPtr) => {
+  var sampler = WebGPU.mgrSampler.get(samplerId);
+  sampler.label = UTF8ToString(labelPtr);
+};
+
 var _wgpuShaderModuleRelease = id => WebGPU.mgrShaderModule.release(id);
+
+var _wgpuShaderModuleSetLabel = (shaderModuleId, labelPtr) => {
+  var shaderModule = WebGPU.mgrShaderModule.get(shaderModuleId);
+  shaderModule.label = UTF8ToString(labelPtr);
+};
 
 var _wgpuSurfaceGetPreferredFormat = (surfaceId, adapterId) => {
   var format = navigator["gpu"]["getPreferredCanvasFormat"]();
@@ -11741,7 +11744,6 @@ var wasmImports = {
   /** @export */ segfault: segfault,
   /** @export */ wgpuAdapterRelease: _wgpuAdapterRelease,
   /** @export */ wgpuAdapterRequestDevice: _wgpuAdapterRequestDevice,
-  /** @export */ wgpuBindGroupRelease: _wgpuBindGroupRelease,
   /** @export */ wgpuBufferGetConstMappedRange: _wgpuBufferGetConstMappedRange,
   /** @export */ wgpuBufferGetSize: _wgpuBufferGetSize,
   /** @export */ wgpuBufferMapAsync: _wgpuBufferMapAsync,
@@ -11765,8 +11767,8 @@ var wasmImports = {
   /** @export */ wgpuDeviceCreateShaderModule: _wgpuDeviceCreateShaderModule,
   /** @export */ wgpuDeviceCreateSwapChain: _wgpuDeviceCreateSwapChain,
   /** @export */ wgpuDeviceCreateTexture: _wgpuDeviceCreateTexture,
+  /** @export */ wgpuDeviceDestroy: _wgpuDeviceDestroy,
   /** @export */ wgpuDeviceGetQueue: _wgpuDeviceGetQueue,
-  /** @export */ wgpuDeviceRelease: _wgpuDeviceRelease,
   /** @export */ wgpuDeviceSetUncapturedErrorCallback: _wgpuDeviceSetUncapturedErrorCallback,
   /** @export */ wgpuInstanceCreateSurface: _wgpuInstanceCreateSurface,
   /** @export */ wgpuInstanceRequestAdapter: _wgpuInstanceRequestAdapter,
@@ -11784,10 +11786,11 @@ var wasmImports = {
   /** @export */ wgpuRenderPassEncoderSetScissorRect: _wgpuRenderPassEncoderSetScissorRect,
   /** @export */ wgpuRenderPassEncoderSetVertexBuffer: _wgpuRenderPassEncoderSetVertexBuffer,
   /** @export */ wgpuRenderPassEncoderSetViewport: _wgpuRenderPassEncoderSetViewport,
-  /** @export */ wgpuRenderPipelineGetBindGroupLayout: _wgpuRenderPipelineGetBindGroupLayout,
   /** @export */ wgpuRenderPipelineRelease: _wgpuRenderPipelineRelease,
   /** @export */ wgpuSamplerRelease: _wgpuSamplerRelease,
+  /** @export */ wgpuSamplerSetLabel: _wgpuSamplerSetLabel,
   /** @export */ wgpuShaderModuleRelease: _wgpuShaderModuleRelease,
+  /** @export */ wgpuShaderModuleSetLabel: _wgpuShaderModuleSetLabel,
   /** @export */ wgpuSurfaceGetPreferredFormat: _wgpuSurfaceGetPreferredFormat,
   /** @export */ wgpuSurfaceRelease: _wgpuSurfaceRelease,
   /** @export */ wgpuSwapChainGetCurrentTexture: _wgpuSwapChainGetCurrentTexture,
