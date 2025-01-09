@@ -190,16 +190,12 @@ void process_events(Context *context) {
         emscripten_debugger();
       } else if (evt.key.key == SDLK_LEFT) {
         context->LeftPressed = true;
-        SDL_Log("Left pressed");
       } else if (evt.key.key == SDLK_RIGHT) {
         context->RightPressed = true;
-        SDL_Log("Right pressed");
       } else if (evt.key.key == SDLK_DOWN) {
         context->DownPressed = true;
-        SDL_Log("Down pressed");
       } else if (evt.key.key == SDLK_UP) {
         context->UpPressed = true;
-        SDL_Log("Up pressed");
       } else if (evt.key.mod & SDL_KMOD_LCTRL &&
                  evt.key.mod & SDL_KMOD_LSHIFT && evt.key.key == SDLK_R) {
         SDL_Log("Reloading page...");
@@ -211,17 +207,6 @@ void process_events(Context *context) {
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
       if (evt.button.button == SDL_BUTTON_LEFT) {
         SDL_Log("Left mouse button pressed!");
-        // push a finger down event to the queue to simulate touch
-        int windowWidth, windowHeight;
-        SDL_GetWindowSize(context->Window, &windowWidth, &windowHeight);
-        SDL_PushEvent(&(SDL_Event){
-            .tfinger =
-                {
-                    .type = SDL_EVENT_FINGER_DOWN,
-                    .x = evt.button.x / (float)windowWidth,
-                    .y = evt.button.y / (float)windowHeight,
-                },
-        });
       }
       if (evt.button.button == SDL_BUTTON_RIGHT) {
         SDL_Log("Right mouse button pressed!");
@@ -230,40 +215,39 @@ void process_events(Context *context) {
         SDL_Log("Middle mouse button pressed!");
       }
       break;
-  case SDL_EVENT_FINGER_DOWN:
-    // if the finger is on the right, go to the next example
-    if (evt.tfinger.x > 0.5) {
-      gotoExampleIndex = exampleIndex + 1;
-      if (gotoExampleIndex >= SDL_arraysize(Examples)) {
-        gotoExampleIndex = 0;
+    case SDL_EVENT_MOUSE_BUTTON_UP:
+      if (evt.button.button == SDL_BUTTON_LEFT) {
+        // If mouse pressed on right side of the screen
+        // then move to next example
+        int width, height;
+        SDL_GetWindowSize(context->Window, &width, &height);
+        if (evt.button.x > (float)width / 2) {
+          gotoExampleIndex = exampleIndex + 1;
+          if (gotoExampleIndex >= SDL_arraysize(Examples)) {
+            gotoExampleIndex = 0;
+          }
+        } else {
+          gotoExampleIndex = exampleIndex - 1;
+          if (gotoExampleIndex < 0) {
+            gotoExampleIndex = SDL_arraysize(Examples) - 1;
+          }
+        }
       }
+      break;
     }
-    // if the finger is on the left, go to the previous example
-    else {
-      gotoExampleIndex = exampleIndex - 1;
-      if (gotoExampleIndex < 0) {
-        gotoExampleIndex = SDL_arraysize(Examples) - 1;
-      }
-    }
-    break;
-  }
 
-  // If we've been processing events for more than 2ms, empty any mouse events
-  // in the event queue as there is an issue with mouse events flooding the
-  // event queue on browsers.
-  if (SDL_GetTicks() - start > 2) {
-    SDL_Log("Queue Overloaded: Emptying mouse events from the queue!");
-    while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_MOUSE_MOTION,
-                          SDL_EVENT_MOUSE_MOTION) > 0) {
-      //
+    // If we've been processing events for more than 2ms, empty any mouse
+    // events in the event queue as there is an issue with mouse events
+    // flooding the event queue on browsers.
+    if (SDL_GetTicks() - start > 2) {
+      SDL_Log("Queue Overloaded: Emptying mouse events from the queue!");
+      while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_MOUSE_MOTION,
+                            SDL_EVENT_MOUSE_MOTION) > 0) {
+        //
+      }
+      break;
     }
-    while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_FINGER_DOWN,
-                          SDL_EVENT_FINGER_DOWN) > 0) {
-      //
-    }
-    break;
-  }
-} // SDL_Event Processing End
+  } // SDL_Event Processing End
 }
 
 // Load one of the examples into our WebGPU context.
