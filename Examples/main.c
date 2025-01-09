@@ -219,24 +219,22 @@ void process_events(Context *context) {
       }
       break;
     case SDL_EVENT_FINGER_DOWN:
-            // if the finger is on the right, go to the next example
-            if (evt.tfinger.x > 0.5) {
-                gotoExampleIndex = exampleIndex + 1;
-                if (gotoExampleIndex >= SDL_arraysize(Examples)) {
-                    gotoExampleIndex = 0;
-                }
-            }
-            // if the finger is on the left, go to the previous example
-            else {
-                gotoExampleIndex = exampleIndex - 1;
-                if (gotoExampleIndex < 0) {
-                    gotoExampleIndex = SDL_arraysize(Examples) - 1;
-                }
-            }
-            break;
+      // if the finger is on the right, go to the next example
+      if (evt.tfinger.x > 0.5) {
+        gotoExampleIndex = exampleIndex + 1;
+        if (gotoExampleIndex >= SDL_arraysize(Examples)) {
+          gotoExampleIndex = 0;
+        }
+      }
+      // if the finger is on the left, go to the previous example
+      else {
+        gotoExampleIndex = exampleIndex - 1;
+        if (gotoExampleIndex < 0) {
+          gotoExampleIndex = SDL_arraysize(Examples) - 1;
+        }
+      }
+      break;
     }
-
-
 
     // If we've been processing events for more than 2ms, empty any mouse events
     // in the event queue as there is an issue with mouse events flooding the
@@ -245,6 +243,10 @@ void process_events(Context *context) {
       SDL_Log("Queue Overloaded: Emptying mouse events from the queue!");
       while (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_MOUSE_MOTION,
                             SDL_EVENT_MOUSE_MOTION) > 0) {
+        //
+      }
+      while(SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_EVENT_FINGER_DOWN,
+                           SDL_EVENT_FINGER_DOWN) > 0) {
         //
       }
       break;
