@@ -9,6 +9,7 @@ static SDL_GPUSampler* Sampler;
 
 static int Init(Context* context)
 {
+    SDL_Log("This demo is semi-complete. Samplers are still not working correctly.");
 	int result = CommonInit(context, 0);
 	if (result < 0)
 	{

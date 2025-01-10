@@ -15,6 +15,7 @@ typedef struct FragMultiplyUniform
 
 static int Init(Context* context)
 {
+    SDL_Log("This example is incomplete and will not render correctly. I will return later.");
 	int result = CommonInit(context, 0);
 	if (result < 0)
 	{

@@ -17,7 +17,7 @@ static Example *Examples[] = {
     &BasicTriangle_Example,
     &BasicVertexBuffer_Example,
     &CullMode_Example,
-    /*&BasicStencil_Example,*/
+    &BasicStencil_Example,
     &InstancedIndexed_Example,
     &TexturedQuad_Example,
     &TexturedAnimatedQuad_Example,
