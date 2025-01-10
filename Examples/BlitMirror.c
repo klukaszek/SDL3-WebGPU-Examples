@@ -6,6 +6,7 @@ static Uint32 TextureWidth, TextureHeight;
 
 static int Init(Context* context)
 {
+    SDL_Log("This example succesfully loads but fails to display the image with no validation errors. It is a work in progress.");
 	int result = CommonInit(context, 0);
 	if (result < 0)
 	{
