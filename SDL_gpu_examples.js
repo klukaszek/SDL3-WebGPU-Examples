@@ -35,7 +35,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpeeyrent4.js
+// include: /tmp/tmp8jisjbvg.js
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
 }
@@ -480,59 +480,67 @@ Module.expectedDataFileDownloads++;
       "start": 1427132,
       "end": 1428001
     }, {
-      "filename": "/Content/Shaders/WGSL/SolidColor.frag.wgsl",
+      "filename": "/Content/Shaders/WGSL/Skybox.frag.wgsl",
       "start": 1428001,
-      "end": 1428303
+      "end": 1428267
+    }, {
+      "filename": "/Content/Shaders/WGSL/Skybox.vert.wgsl",
+      "start": 1428267,
+      "end": 1428669
+    }, {
+      "filename": "/Content/Shaders/WGSL/SolidColor.frag.wgsl",
+      "start": 1428669,
+      "end": 1428971
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.comp.wgsl",
-      "start": 1428303,
-      "end": 1428974
+      "start": 1428971,
+      "end": 1429642
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.frag.wgsl",
-      "start": 1428974,
-      "end": 1429284
+      "start": 1429642,
+      "end": 1429952
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuad.vert.wgsl",
-      "start": 1429284,
-      "end": 1429703
+      "start": 1429952,
+      "end": 1430371
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadArray.frag.wgsl",
-      "start": 1429703,
-      "end": 1430123
+      "start": 1430371,
+      "end": 1430791
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadColor.frag.wgsl",
-      "start": 1430123,
-      "end": 1430521
+      "start": 1430791,
+      "end": 1431189
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMatrix.vert.wgsl",
-      "start": 1430521,
-      "end": 1431055
+      "start": 1431189,
+      "end": 1431723
     }, {
       "filename": "/Content/Shaders/WGSL/TexturedQuadWithMultiplyColor.frag.wgsl",
-      "start": 1431055,
-      "end": 1431554
+      "start": 1431723,
+      "end": 1432222
     } ],
-    "remote_package_size": 1431554
+    "remote_package_size": 1432222
   });
 })();
 
-// end include: /tmp/tmpeeyrent4.js
-// include: /tmp/tmpficebx8i.js
+// end include: /tmp/tmp8jisjbvg.js
+// include: /tmp/tmpj053lmd9.js
 // All the pre-js content up to here must remain later on, we need to run
 // it.
 if (Module["$ww"] || (typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD)) Module["preRun"] = [];
 
 var necessaryPreJSTasks = Module["preRun"].slice();
 
-// end include: /tmp/tmpficebx8i.js
-// include: /tmp/tmp4ze6h7ad.js
+// end include: /tmp/tmpj053lmd9.js
+// include: /tmp/tmpevy7w8bb.js
 if (!Module["preRun"]) throw "Module.preRun should exist because file support used it; did a pre-js delete it?";
 
 necessaryPreJSTasks.forEach(task => {
   if (Module["preRun"].indexOf(task) < 0) throw "All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?";
 });
 
-// end include: /tmp/tmp4ze6h7ad.js
+// end include: /tmp/tmpevy7w8bb.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
