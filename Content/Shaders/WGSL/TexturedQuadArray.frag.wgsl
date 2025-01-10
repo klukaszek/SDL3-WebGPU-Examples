@@ -11,6 +11,5 @@ fn main(input: FragmentInput) -> @location(0) vec4<f32> {
     if (input.tex_coord.y > 0.5) {
         array_index = 1;
     }
-    let sampled_color = textureSample(texture, texture_sampler, input.tex_coord, array_index);
-    return vec4<f32>(1.0, 1.0, 1.0, 1.0) * sampled_color;
+    return textureSample(texture, texture_sampler, input.tex_coord, array_index);
 }
