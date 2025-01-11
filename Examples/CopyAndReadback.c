@@ -1,4 +1,6 @@
 #include "Common.h"
+#include <SDL3/SDL_gpu.h>
+#include <SDL3/SDL_stdinc.h>
 
 static SDL_GPUTexture *OriginalTexture;
 static SDL_GPUTexture *TextureCopy;
@@ -64,12 +66,14 @@ static int Init(Context *context) {
       &(SDL_GPUBufferCreateInfo){
           .usage = SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ, /* arbitrary */
           .size = sizeof(bufferData)});
+  SDL_SetGPUBufferName(context->Device, OriginalBuffer, "OriginalBuffer");
 
   BufferCopy = SDL_CreateGPUBuffer(
       context->Device,
       &(SDL_GPUBufferCreateInfo){
           .usage = SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ, /* arbitrary */
           .size = sizeof(bufferData)});
+  SDL_SetGPUBufferName(context->Device, BufferCopy, "BufferCopy");
 
   SDL_GPUTransferBuffer *downloadTransferBuffer = SDL_CreateGPUTransferBuffer(
       context->Device,
@@ -173,6 +177,16 @@ static int Init(Context *context) {
   // Compare the original bytes to the copied bytes
   Uint8 *downloadedData =
       SDL_MapGPUTransferBuffer(context->Device, downloadTransferBuffer, false);
+
+  Uint8 r, g, b, a;
+  Uint8 *pixels = (Uint8 *)imageData->pixels;
+  for (int i = 0; i < imageData->w * imageData->h * 4; i += 4) {
+    r = pixels[i];
+    g = pixels[i + 1];
+    b = pixels[i + 2];
+    a = pixels[i + 3];
+    SDL_Log("Pixel %d: %d %d %d %d", i, r, g, b, a);
+  }
 
   if (SDL_memcmp(downloadedData, imageData->pixels,
                  imageData->w * imageData->h * 4) == 0) {
