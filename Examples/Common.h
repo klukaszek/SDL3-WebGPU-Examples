@@ -5,11 +5,11 @@
 
 typedef struct Context
 {
+	SDL_GPUDevice* Device;
 	const char* ExampleName;
     int exampleIndex;
 	const char* BasePath;
 	SDL_Window* Window;
-	SDL_GPUDevice* Device;
 	bool LeftPressed;
 	bool RightPressed;
 	bool DownPressed;

@@ -178,15 +178,15 @@ static int Init(Context *context) {
   Uint8 *downloadedData =
       SDL_MapGPUTransferBuffer(context->Device, downloadTransferBuffer, false);
 
-  Uint8 r, g, b, a;
-  Uint8 *pixels = (Uint8 *)imageData->pixels;
-  for (int i = 0; i < imageData->w * imageData->h * 4; i += 4) {
-    r = pixels[i];
-    g = pixels[i + 1];
-    b = pixels[i + 2];
-    a = pixels[i + 3];
-    SDL_Log("Pixel %d: %d %d %d %d", i, r, g, b, a);
-  }
+  /*Uint8 r, g, b, a;*/
+  /*Uint8 *pixels = (Uint8 *)imageData->pixels;*/
+  /*for (int i = 0; i < imageData->w * imageData->h * 4; i += 4) {*/
+  /*  r = pixels[i];*/
+  /*  g = pixels[i + 1];*/
+  /*  b = pixels[i + 2];*/
+  /*  a = pixels[i + 3];*/
+  /*  SDL_Log("Pixel %d: %d %d %d %d", i, r, g, b, a);*/
+  /*}*/
 
   if (SDL_memcmp(downloadedData, imageData->pixels,
                  imageData->w * imageData->h * 4) == 0) {

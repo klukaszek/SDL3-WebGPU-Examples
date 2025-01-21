@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(SDL_gpu_examples)
 find_package(SDL3 REQUIRED)
+# find_library(CIMGUI_LIBRARY NAMES cimgui PATHS ${CMAKE_SOURCE_DIR}/cimgui/)
+# add_subdirectory(cimgui)
 
 add_executable(SDL_gpu_examples
     Examples/main.c
@@ -37,6 +39,7 @@ add_executable(SDL_gpu_examples
 )
 
 target_include_directories(SDL_gpu_examples PRIVATE SDL_gpu_shadercross)
+# target_include_directories(SDL_gpu_examples PRIVATE cimgui)
 
 add_custom_command(TARGET SDL_gpu_examples PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Content $<TARGET_FILE_DIR:SDL_gpu_examples>/Content
@@ -60,10 +63,15 @@ if(EMSCRIPTEN)
     
     # Add the Content/ directory to Emscripten's virtual filesystem
     target_link_options(SDL_gpu_examples PUBLIC "SHELL: --preload-file Content/")
+
+    # add cimgui_impl_sdl3.c and cimgui_impl_sdl3.h to the project
+    # target_sources(SDL_gpu_examples PRIVATE Examples/cimgui_impl_sdl3.c Examples/cimgui_impl_sdl3.h)
     
     # Link libtint.a to the project
+    # target_link_directories(SDL_gpu_examples PRIVATE cimgui)
     target_link_directories(SDL_gpu_examples PRIVATE SDL_gpu_shadercross)
     target_link_libraries(SDL_gpu_examples PRIVATE SDL3::SDL3 SDL3::Headers tint)
+    # target_link_libraries(SDL_gpu_examples PRIVATE cimgui)
 
     set(CLEAN_FILES ${CLEAN_FILES} 
         ./SDL_gpu_shadercross/libtint.a
