@@ -20,25 +20,15 @@ static Example *Examples[] = {
     &TexturedAnimatedQuad_Example, &Clear3DSlice_Example,
     &Blit2DArray_Example,          &BlitCube_Example,
     &BlitMirror_Example,           &Cubemap_Example,
-    &CopyAndReadback_Example,      &CopyConsistency_Example,
-    &BasicCompute_Example,         &ComputeUniforms_Example,
-    &ToneMapping_Example,          &CustomSampling_Example,
-    &DrawIndirect_Example,         &ComputeSpriteBatch_Example,
-    &TriangleMSAA_Example,         &WindowResize_Example,
-    &GenerateMipmaps_Example,
-};
-
-static bool emsc_dummy_mousebutton_callback(int type,
-                                            const EmscriptenMouseEvent *ev,
-                                            void *userdata) {
-  return true;
-}
-
-static bool emsc_dummy_mousewheel_callback(int type,
-                                           const EmscriptenWheelEvent *ev,
-                                           void *userdata) {
-  return true;
-}
+    &DrawIndirect_Example,         &TriangleMSAA_Example,
+    &WindowResize_Example,         
+        
+    // Non-Funcitonal Examples
+    &CopyAndReadback_Example,
+    &CopyConsistency_Example,      &BasicCompute_Example,
+    &ComputeUniforms_Example,      &ToneMapping_Example,
+    &ComputeSpriteBatch_Example,   &CustomSampling_Example,
+    &GenerateMipmaps_Example};
 
 static bool emsc_dummy_touch_callback(int type, const EmscriptenTouchEvent *ev,
                                       void *userdata) {

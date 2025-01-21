@@ -54,7 +54,7 @@ static int Init(Context* context)
 			context->Device,
 			RTFormat,
 			sample_count)) {
-			SDL_Log("Sample count %d not supported", (1 << CurrentSampleCount));
+			SDL_Log("Sample count %u not supported", (1 << CurrentSampleCount));
 			continue;
 		}
 		pipelineCreateInfo.multisample_state.sample_count = sample_count;
