@@ -44,7 +44,7 @@ jobs:
       run: |
         git clone https://github.com/klukaszek/SDL.git
         cd SDL
-        git pull origin main
+        git pull origin emscripten-webgpu
         git submodule update --init
 
     - name: Build SDL
