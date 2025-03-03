@@ -1,6 +1,6 @@
-set(CMAKE_HOST_SYSTEM "Linux-6.8.0-1017-azure")
+set(CMAKE_HOST_SYSTEM "Linux-6.8.0-1021-azure")
 set(CMAKE_HOST_SYSTEM_NAME "Linux")
-set(CMAKE_HOST_SYSTEM_VERSION "6.8.0-1017-azure")
+set(CMAKE_HOST_SYSTEM_VERSION "6.8.0-1021-azure")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "x86_64")
 
 include("/home/runner/work/SDL3-WebGPU-Examples/SDL3-WebGPU-Examples/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
