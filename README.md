@@ -4,6 +4,7 @@ Collection of WebGPU examples for SDL3 based on the examples provided by:
 
 - https://github.com/TheSpydog/SDL_gpu_examples/
 
+Unfortunately this project got axed! Feel free to continue working on it if you'd like but the SDL team has decided that they will have to work on this from the ground up due to API conflicts. 
 
 ## SDL3 WebGPU Fork
 You can acquire the WebGPU fork of SDL3 from my repo here: 
